@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>{% block title %}Journal Site{% endblock %}</title>
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+        />
+        <link rel="stylesheet" href="/static/css/style.css" />
+        <script src="/static/js/htmx.min.js"></script>
+    </head>
+    <body>
+        <nav
+            class="navbar is-light"
+            role="navigation"
+            aria-label="main navigation"
+        >
+            <div class="navbar-brand">
+                <a class="navbar-item" href="/">
+                    <strong>Journal Site</strong>
+                </a>
+
+                <a
+                    role="button"
+                    class="navbar-burger"
+                    aria-label="menu"
+                    aria-expanded="false"
+                    data-target="navbarBasic"
+                >
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+
+            <div id="navbarBasic" class="navbar-menu">
+                <div class="navbar-start">
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link"> Journals </a>
+                        <div class="navbar-dropdown">
+                            <a class="navbar-item" href="/journals/current">
+                                Current Issue
+                            </a>
+                            <a class="navbar-item" href="/journals/past">
+                                Past Issues
+                            </a>
+                        </div>
+                    </div>
+
+                    <a class="navbar-item" href="/submit"> Submit Paper </a>
+
+                    <a class="navbar-item" href="/call-for-papers">
+                        Call for Papers
+                    </a>
+
+                    <a class="navbar-item" href="/editorial-board">
+                        Editorial Board
+                    </a>
+
+                    <a class="navbar-item" href="/about"> About </a>
+                </div>
+
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            <a class="button is-primary" href="/admin/upload">
+                                <strong>Admin</strong>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <section class="section">
+            <div class="container">{% block content %}{% endblock %}</div>
+        </section>
+
+        <footer class="footer">
+            <div class="content has-text-centered">
+                <p>
+                    <strong>Journal Site</strong> © 2024. All rights reserved.
+                </p>
+            </div>
+        </footer>
+
+        <script>
+            // Burger menu toggle
+            document.addEventListener("DOMContentLoaded", () => {
+                const $navbarBurgers = Array.prototype.slice.call(
+                    document.querySelectorAll(".navbar-burger"),
+                    0,
+                );
+                $navbarBurgers.forEach((el) => {
+                    el.addEventListener("click", () => {
+                        const target = el.dataset.target;
+                        const $target = document.getElementById(target);
+                        el.classList.toggle("is-active");
+                        $target.classList.toggle("is-active");
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>

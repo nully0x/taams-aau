@@ -1,0 +1,21 @@
+{% extends "layouts/base.html" %} {% block content %}
+<div class="hero-section">
+    <h1>Welcome to [Journal Name]</h1>
+    <p>A leading journal in [Journal Field]...</p>
+    <a
+        href="/journals/current"
+        hx-get="/journals/current"
+        hx-target="#main-content"
+        hx-swap="outerHTML"
+        >View Current Issue</a
+    >
+</div>
+
+<div class="featured-articles">
+    <h2>Featured Articles</h2>
+    <p>
+        Placeholder for featured articles. This could be a list or grid of
+        articles.
+    </p>
+</div>
+{% endblock %}
