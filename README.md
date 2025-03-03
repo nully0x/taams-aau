@@ -19,7 +19,6 @@ cd aau-ajet
 2. Install development dependencies:
 ```bash
 cargo install cargo-watch
-cargo install cargo-edit
 ```
 
 3. Create a `.env` file in the project root:
@@ -27,7 +26,7 @@ cargo install cargo-edit
 RUST_LOG=debug
 RUST_BACKTRACE=1
 SERVER_PORT=8080
-SERVER_HOST=127.0.0.1
+SERVER_HOST=0.0.0.0
 ```
 
 ## Development
@@ -35,15 +34,8 @@ SERVER_HOST=127.0.0.1
 Start the development server with auto-reload:
 
 ```bash
-./scripts/dev.sh
+cargo watch -x 'run'
 ```
-
-Or manually with cargo-watch:
-
-```bash
-cargo watch -x run
-```
-
 The application will be available at: http://localhost:8080
 
 ## Project Structure
@@ -67,4 +59,3 @@ src/
 - Current and past issues
 - Editorial board management
 - Admin interface
-- Responsive design with Bulma CSS
