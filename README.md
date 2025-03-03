@@ -1,4 +1,4 @@
-# African Academic Union - African Journal of Educational Technology
+# Adekunle Ajasin University - Akungbe Journal of Educational Technology
 
 A web application for managing and publishing academic journals.
 
