@@ -1,4 +1,4 @@
-{% extends "layouts/base.html" %} {% block content %}
+<!-- {% extends "layouts/base.html" %} {% block content %}
 <div class="hero-section">
     <h1>Welcome to {{journal_name}}</h1>
     <p>A leading journal in {{journal_field}}...</p>
@@ -12,4 +12,582 @@
         articles.
     </p>
 </div>
-{% endblock %}
+{% endblock %} -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Akungba Journal of Economics (AJE)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Lora", serif;
+      }
+
+      body {
+        line-height: 1.6;
+        color: #333;
+      }
+
+      .hero {
+        background-image: url("../src/assets/Rectangle\ 1.png");
+        color: white;
+        padding: 20px;
+        text-align: center;
+      }
+
+      /* Top Navigation */
+      .top-nav {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 80px;
+        padding: 10px 20px;
+        margin: 20px auto;
+        background-color: white;
+        border-radius: 40px;
+        width: 700px;
+        color: #1e73be;
+      }
+
+      .circle {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: #0066cc;
+        margin-right: 15px;
+      }
+
+      .logo {
+        font-size: 24px;
+        font-weight: bold;
+      }
+
+      .nav-items {
+        display: flex;
+        gap: 20px;
+      }
+
+      .nav-items a {
+        text-decoration: none;
+        color: #1e73be;
+        font-size: 16px;
+      }
+
+      .nav-items a:hover {
+        text-decoration: underline;
+      }
+
+      .hero h1 {
+        font-size: 64px;
+        margin-bottom: 10px;
+        margin-top: 100px;
+      }
+
+      .hero p {
+        margin-bottom: 20px;
+        font-size: 16px;
+      }
+
+      .hero-buttons {
+        margin-top: 20px;
+        margin-bottom: 60px;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 8px 20px;
+        border: 1px solid white;
+        background: transparent;
+        color: white;
+        text-decoration: none;
+        margin: 0 5px;
+        font-size: 14px;
+      }
+
+      .btn-filled {
+        background-color: white;
+        color: #1e73be;
+      }
+
+      /* Main Content */
+      .main-content {
+        display: flex;
+        max-width: 1200px;
+        background: white;
+        padding: 30px;
+        align-items: start;
+      }
+      .text-content {
+        flex: 1;
+        padding-right: 40px;
+      }
+      .text-content h2 {
+        color: #1e73be;
+        font-size: 32px;
+        margin-bottom: 10px;
+      }
+      .text-content h3 {
+        font-size: 48px;
+        margin-bottom: 15px;
+      }
+      .text-content p {
+        font-size: 16px;
+        margin-bottom: 15px;
+        line-height: 1.5;
+      }
+      .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #1e73be;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-top: 10px;
+      }
+      .image-content {
+        flex: 1;
+        position: relative;
+        text-align: center;
+      }
+      .image-content img {
+        width: 100%;
+        height: auto;
+      }
+      .blue-box {
+        position: absolute;
+        right: -60px;
+        top: 0;
+        width: 80px;
+        height: 99%;
+        background: #cbe2ff;
+      }
+      .stats {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        color: white;
+        padding: 10px;
+        gap: 10px;
+      }
+      .stat-item {
+        background-color: #b1b2b5; 
+        backdrop-filter: blur(10px); 
+        text-align: center;
+        padding: 10px 20px;
+      }
+      .stat-number {
+        font-size: 24px;
+        font-weight: bold;
+      }
+      .stat-label {
+        font-size: 14px;
+        text-transform: uppercase;
+      }
+      /* Publications Section */
+      .publications {
+        padding: 30px 20px;
+        background-color: #f9f9f9;
+      }
+
+      .pub-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        max-width: 1200px;
+        margin: 0 auto 20px;
+      }
+
+      .pub-header h2 {
+        font-size: 22px;
+      }
+
+      .view-all {
+        font-size: 14px;
+        font-weight: bold;
+        color: #1e73be;
+        text-decoration: none;
+      }
+
+      .pub-grid {
+        display: flex;
+        gap: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+        overflow-x: auto;
+      }
+
+      .pub-card {
+        flex: 0 0 calc(33.333% - 20px);
+        background: white;
+        border: 1px solid #eee;
+        padding: 15px;
+      }
+
+      .pub-vol {
+        font-size: 12px;
+        color: #666;
+        margin-bottom: 10px;
+      }
+
+      .pub-title {
+        font-size: 14px;
+        margin-bottom: 10px;
+        font-weight: bold;
+        color: #1e73be;
+      }
+
+      .pub-abstract {
+        margin-top: 15px;
+      }
+
+      .pub-abstract strong {
+        font-size: 14px;
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      .pub-abstract p {
+        font-size: 12px;
+      }
+
+      .pub-meta {
+        margin-top: 15px;
+        font-size: 12px;
+        color: #666;
+        display: flex;
+        align-items: center;
+      }
+
+      .pub-meta img {
+        width: 20px;
+        height: 20px;
+        margin-right: 5px;
+      }
+
+      /* Pagination */
+      .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+      }
+
+      .page-item {
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 5px;
+        border-radius: 50%;
+        background-color: white;
+        border: 1px solid #ddd;
+        cursor: pointer;
+      }
+
+      .page-item.active {
+        background-color: #1e73be;
+        color: white;
+        border-color: #1e73be;
+      }
+
+      /* Footer */
+      footer {
+        background-color: #004080;
+        color: white;
+        padding: 50px 20px 20px;
+      }
+
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+
+      .footer-left {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .footer-logo {
+        display: flex;
+        align-items: center;
+        margin-bottom: 30px;
+      }
+
+      .footer-logo-circle {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: #0066cc;
+        margin-right: 15px;
+      }
+
+      .footer-logo-text {
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      .footer-links {
+        display: flex;
+        margin-bottom: 40px;
+      }
+
+      .footer-links a {
+        color: white;
+        text-decoration: none;
+        font-size: 16px;
+        margin-right: 30px;
+      }
+
+      .footer-right {
+        max-width: 450px;
+      }
+
+      .newsletter h3 {
+        font-size: 18px;
+        margin-bottom: 20px;
+        font-weight: normal;
+      }
+
+      .newsletter-form {
+        display: flex;
+        gap: 10px;
+      }
+
+      .newsletter-form input {
+        flex: 1;
+        padding: 16px;
+        border: none;
+        border-radius: 4px 0 0 4px;
+        font-size: 16px;
+      }
+
+      .newsletter-form button {
+        padding: 16px;
+        background-color: #0088ff;
+        color: white;
+        border: none;
+        border-radius: 0 4px 4px 0;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+      }
+      .divider {
+        width: 100%;
+        height: 1px;
+        background-color: rgba(255, 255, 255, 0.2);
+        margin: 30px 0 20px;
+      }
+
+      .copyright {
+        width: 100%;
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.7);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Hero Section with Top Navigation -->
+    <header class="hero">
+      <!-- Top Navigation -->
+      <nav class="top-nav">
+        <div style="display: flex; align-items: center">
+          <div class="circle"></div>
+          <div class="logo">AJE Journal</div>
+        </div>
+        <div class="nav-items">
+          <a href="#">Journals</a>
+          <a href="#">Submit an Article</a>
+          <a href="#">Editorial Board</a>
+        </div>
+      </nav>
+
+      <h1>Akungba Journal of Economics (AJE)</h1>
+      <p>We welcome finest research articles in field of economics</p>
+      <div class="hero-buttons">
+        <a href="#" class="btn btn-filled">Submit An Article</a>
+        <a href="#" class="btn" style="background-color: white; color: #0066cc"
+          >View Latest Publication</a
+        >
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="text-content">
+        <h2>Welcome to Covenant University</h2>
+        <h3>AJE Journal</h3>
+        <p>
+          The Covenant University AJE Journal is a digital repository of
+          research journals published by our faculty and students.
+        </p>
+        <p>
+          Our mission is to facilitate knowledge sharing, foster collaboration,
+          and promote innovative thinking among scholars, researchers, and
+          practitioners.
+        </p>
+        <p>
+          By publishing cutting-edge research, we aim to address pressing
+          challenges, inspire new solutions, and contribute to the betterment of
+          society.
+        </p>
+        <a
+          href="#"
+          class="btn"
+          style="
+            background-color: white;
+            border: 1px solid #0066cc;
+            color: #0066cc;
+          "
+          >Submit An Article</a
+        >
+      </div>
+      <div class="image-content">
+        <img src="../src/assets/image 10.png" alt="Student in library" />
+        <div class="blue-box"></div>
+        <div class="stats">
+          <div class="stat-item">
+            <div class="stat-number">400+</div>
+            <div class="stat-label">Articles</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">200+</div>
+            <div class="stat-label">Users</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">10+</div>
+            <div class="stat-label">Editors</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Latest Publications -->
+    <section class="publications">
+      <div class="pub-header">
+        <h2>Latest Publications</h2>
+        <a href="#" class="view-all">View All Publications →</a>
+      </div>
+      <div class="pub-grid">
+        <!-- Publication Card 1 -->
+        <div class="pub-card">
+          <div class="pub-vol">Volume: 8(2023), Pages: 51-68</div>
+          <div class="pub-title">
+            Firm Attributes and Audit Reporting Lag in Listed Deposit Money
+            Banks in Nigeria
+          </div>
+          <div class="pub-abstract">
+            <strong>Abstract:</strong>
+            <p>
+              This study investigates the effect of firm attributes on the audit
+              reporting lag in Listed Deposit Money Banks in Nigeria from
+              2015...
+            </p>
+          </div>
+          <div class="pub-meta">
+            <img src="../src/assets/group.png" alt="Category icon" />
+            <span>Category: Finance, Local Studies, Global Time Patterns</span>
+          </div>
+        </div>
+
+        <!-- Publication Card 2 -->
+        <div class="pub-card">
+          <div class="pub-vol">Volume: 8(2023), Pages: 51-68</div>
+          <div class="pub-title">
+            Firm Attributes and Audit Reporting Lag in Listed Deposit Money
+            Banks in Nigeria
+          </div>
+          <div class="pub-abstract">
+            <strong>Abstract:</strong>
+            <p>
+              This study investigates the effect of firm attributes on the audit
+              reporting lag in Listed Deposit Money Banks in Nigeria from
+              2015...
+            </p>
+          </div>
+          <div class="pub-meta">
+            <img src="../src/assets/group.png" alt="Category icon" />
+            <span>Category: Finance, Local Studies, Global Time Patterns</span>
+          </div>
+        </div>
+
+        <!-- Publication Card 3 -->
+        <div class="pub-card">
+          <div class="pub-vol">Volume: 8(2023), Pages: 51-68</div>
+          <div class="pub-title">
+            Firm Attributes and Audit Reporting Lag in Listed Deposit Money
+            Banks in Nigeria
+          </div>
+          <div class="pub-abstract">
+            <strong>Abstract:</strong>
+            <p>
+              This study investigates the effect of firm attributes on the audit
+              reporting lag in Listed Deposit Money Banks in Nigeria from
+              2015...
+            </p>
+          </div>
+          <div class="pub-meta">
+            <img src="../src/assets/group.png" alt="Category icon" />
+            <span>Category: Finance, Local Studies, Global Time Patterns</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination">
+        <div class="page-item active">1</div>
+        <div class="page-item">2</div>
+        <div class="page-item">3</div>
+        <div class="page-item">...</div>
+        <div class="page-item">></div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-content">
+        <div class="footer-left">
+          <div class="footer-logo">
+            <div class="footer-logo-circle"></div>
+            <div class="footer-logo-text">AJE Journal</div>
+          </div>
+          <div class="footer-links">
+            <a href="#">Journals</a>
+            <a href="#">Publish</a>
+            <a href="#">Editorial Board</a>
+          </div>
+        </div>
+
+        <div class="footer-right">
+          <div class="newsletter">
+            <h3>Stay up to date with our newsletter</h3>
+            <div class="newsletter-form">
+              <input type="email" placeholder="Enter your email" />
+              <button>Subscribe</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+        <div class="copyright">© 2025 AJE. All rights reserved.</div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,478 @@
+<!-- {% extends "layouts/base.html" %} {% block content %}
+<div class="hero-section">
+    <h1>Welcome to {{journal_name}}</h1>
+    <p>A leading journal in {{journal_field}}...</p>
+    <a href="/journals/current">View Current Issue</a>
+</div>
+
+<div class="featured-articles">
+    <h2>Featured Articles</h2>
+    <p>
+        Placeholder for featured articles. This could be a list or grid of
+        articles.
+    </p>
+</div>
+{% endblock %} -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Akungba Journal of Economics (AJE)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Lora", serif;
+      }
+
+      body {
+        line-height: 1.6;
+        color: #333;
+      }
+
+      .hero {
+        background-image: url("../src/assets/Rectangle\ 2.png");
+        color: white;
+        padding: 20px;
+        text-align: center;
+      }
+
+      /* Top Navigation */
+      .top-nav {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 80px;
+        padding: 10px 20px;
+        margin: 20px auto;
+        background-color: white;
+        border-radius: 40px;
+        width: 700px;
+        color: #1e73be;
+      }
+
+      .circle {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: #0066cc;
+        margin-right: 15px;
+      }
+
+      .logo {
+        font-size: 24px;
+        font-weight: bold;
+      }
+
+      .nav-items {
+        display: flex;
+        gap: 20px;
+      }
+
+      .nav-items a {
+        text-decoration: none;
+        color: #1e73be;
+        font-size: 16px;
+      }
+
+      .nav-items a:hover {
+        text-decoration: underline;
+      }
+
+      .hero h1 {
+        font-size: 28px;
+        margin-bottom: 10px;
+      }
+
+      .hero p {
+        margin-bottom: 20px;
+        font-size: 16px;
+      }
+
+      .hero-buttons {
+        margin-top: 20px;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 8px 20px;
+        border: 1px solid white;
+        background: transparent;
+        color: white;
+        text-decoration: none;
+        margin: 0 5px;
+        font-size: 14px;
+      }
+
+      .btn-filled {
+        background-color: white;
+        color: #1e73be;
+      }
+
+      /* container */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .editorial-head {
+        text-align: center;
+        margin: 0 auto;
+      }
+
+      h1 {
+        font-size: 24px;
+        font-weight: bold;
+      }
+
+      p.subtitle {
+        font-size: 16px;
+        color: gray;
+        margin-bottom: 30px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        justify-items: center;
+        margin-bottom: 20px;
+      }
+
+      .profile {
+        width: 220px;
+        text-align: center;
+      }
+
+      .profile img {
+        width: 100%;
+        border-radius: 50%;
+        height: 200px;
+        object-fit: cover;
+      }
+
+      .profile h3 {
+        margin: 10px 0 5px;
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      .profile p {
+        font-size: 14px;
+        color: #555;
+        margin: 5px 0;
+      }
+
+      /* Footer */
+      footer {
+        background-color: #004080;
+        color: white;
+        padding: 50px 20px 20px;
+      }
+
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+
+      .footer-left {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .footer-logo {
+        display: flex;
+        align-items: center;
+        margin-bottom: 30px;
+      }
+
+      .footer-logo-circle {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: #0066cc;
+        margin-right: 15px;
+      }
+
+      .footer-logo-text {
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      .footer-links {
+        display: flex;
+        margin-bottom: 40px;
+      }
+
+      .footer-links a {
+        color: white;
+        text-decoration: none;
+        font-size: 16px;
+        margin-right: 30px;
+      }
+
+      .footer-right {
+        max-width: 450px;
+      }
+
+      .newsletter h3 {
+        font-size: 18px;
+        margin-bottom: 20px;
+        font-weight: normal;
+      }
+
+      .newsletter-form {
+        display: flex;
+        gap: 10px;
+      }
+
+      .newsletter-form input {
+        flex: 1;
+        padding: 16px;
+        border: none;
+        border-radius: 4px 0 0 4px;
+        font-size: 16px;
+      }
+
+      .newsletter-form button {
+        padding: 16px;
+        background-color: #0088ff;
+        color: white;
+        border: none;
+        border-radius: 0 4px 4px 0;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      .divider {
+        width: 100%;
+        height: 1px;
+        background-color: rgba(255, 255, 255, 0.2);
+        margin: 30px 0 20px;
+      }
+
+      .copyright {
+        width: 100%;
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.7);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Hero Section with Top Navigation -->
+    <header class="hero">
+      <!-- Top Navigation -->
+      <nav class="top-nav">
+        <div style="display: flex; align-items: center">
+          <div class="circle"></div>
+          <div class="logo">AJE Journal</div>
+        </div>
+        <div class="nav-items">
+          <a href="#">Journals</a>
+          <a href="#">Submit an Article</a>
+          <a href="#">Editorial Board</a>
+        </div>
+      </nav>
+    </header>
+
+    <div class="container">
+      <div class="editorial-head">
+        <h1>Editorial Board</h1>
+        <p class="subtitle">
+          A diverse team of experts committed to promoting innovative research
+        </p>
+      </div>
+
+      <div class="grid">
+        <!-- Profile Cards -->
+        <div class="profile">
+          <img src="../src/assets/editorial.png" alt="Prof Ahmed Bello" />
+          <h3>Pro Ahmed Bello</h3>
+          <p><strong>Editor-in-Chief</strong></p>
+          <p>Dean, College of Social and Management Sciences</p>
+          <p>Achievers University</p>
+          <p>Owo, Ondo State - Nigeria</p>
+        </div>
+
+        <!-- Duplicate profile cards to match layout -->
+        <div class="profile">
+          <img src="../src/assets/editorial.png" alt="Prof Ahmed Bello" />
+          <h3>Pro Ahmed Bello</h3>
+          <p><strong>Editor-in-Chief</strong></p>
+          <p>Dean, College of Social and Management Sciences</p>
+          <p>Achievers University</p>
+          <p>Owo, Ondo State - Nigeria</p>
+        </div>
+
+        <div class="profile">
+          <img src="../src/assets/editorial.png" alt="Prof Ahmed Bello" />
+          <h3>Pro Ahmed Bello</h3>
+          <p><strong>Member</strong></p>
+          <p>Dean, College of Social and Management Sciences</p>
+          <p>Achievers University</p>
+          <p>Owo, Ondo State - Nigeria</p>
+        </div>
+        
+        <div class="profile">
+          <img src="../src/assets/editorial.png" alt="Prof Ahmed Bello" />
+          <h3>Pro Ahmed Bello</h3>
+          <p><strong>Editor-in-Chief</strong></p>
+          <p>Dean, College of Social and Management Sciences</p>
+          <p>Achievers University</p>
+          <p>Owo, Ondo State - Nigeria</p>
+        </div>
+
+        <div class="profile">
+          <img src="../src/assets/editorial.png" alt="Prof Ahmed Bello" />
+          <h3>Pro Ahmed Bello</h3>
+          <p><strong>Editor-in-Chief</strong></p>
+          <p>Dean, College of Social and Management Sciences</p>
+          <p>Achievers University</p>
+          <p>Owo, Ondo State - Nigeria</p>
+        </div>
+
+        <div class="profile">
+          <img src="../src/assets/editorial.png" alt="Prof Ahmed Bello" />
+          <h3>Pro Ahmed Bello</h3>
+          <p><strong>Editor-in-Chief</strong></p>
+          <p>Dean, College of Social and Management Sciences</p>
+          <p>Achievers University</p>
+          <p>Owo, Ondo State - Nigeria</p>
+        </div>
+
+        <div class="profile">
+          <img src="../src/assets/editorial.png" alt="Prof Ahmed Bello" />
+          <h3>Pro Ahmed Bello</h3>
+          <p><strong>Editor-in-Chief</strong></p>
+          <p>Dean, College of Social and Management Sciences</p>
+          <p>Achievers University</p>
+          <p>Owo, Ondo State - Nigeria</p>
+        </div>
+
+        <div class="profile">
+          <img src="../src/assets/editorial.png" alt="Prof Ahmed Bello" />
+          <h3>Pro Ahmed Bello</h3>
+          <p><strong>Editor-in-Chief</strong></p>
+          <p>Dean, College of Social and Management Sciences</p>
+          <p>Achievers University</p>
+          <p>Owo, Ondo State - Nigeria</p>
+        </div>
+
+        <div class="profile">
+          <img src="../src/assets/editorial.png" alt="Prof Ahmed Bello" />
+          <h3>Pro Ahmed Bello</h3>
+          <p><strong>Editor-in-Chief</strong></p>
+          <p>Dean, College of Social and Management Sciences</p>
+          <p>Achievers University</p>
+          <p>Owo, Ondo State - Nigeria</p>
+        </div>
+        <div class="profile">
+          <img src="../src/assets/editorial.png" alt="Prof Ahmed Bello" />
+          <h3>Pro Ahmed Bello</h3>
+          <p><strong>Member</strong></p>
+          <p>Dean, College of Social and Management Sciences</p>
+          <p>Achievers University</p>
+          <p>Owo, Ondo State - Nigeria</p>
+        </div>
+
+        <div class="profile">
+          <img src="../src/assets/editorial.png" alt="Prof Ahmed Bello" />
+          <h3>Pro Ahmed Bello</h3>
+          <p><strong>Editor-in-Chief</strong></p>
+          <p>Dean, College of Social and Management Sciences</p>
+          <p>Achievers University</p>
+          <p>Owo, Ondo State - Nigeria</p>
+        </div>
+
+        <div class="profile">
+          <img src="../src/assets/editorial.png" alt="Prof Ahmed Bello" />
+          <h3>Pro Ahmed Bello</h3>
+          <p><strong>Editor-in-Chief</strong></p>
+          <p>Dean, College of Social and Management Sciences</p>
+          <p>Achievers University</p>
+          <p>Owo, Ondo State - Nigeria</p>
+        </div>
+
+        <div class="profile">
+          <img src="../src/assets/editorial.png" alt="Prof Ahmed Bello" />
+          <h3>Pro Ahmed Bello</h3>
+          <p><strong>Editor-in-Chief</strong></p>
+          <p>Dean, College of Social and Management Sciences</p>
+          <p>Achievers University</p>
+          <p>Owo, Ondo State - Nigeria</p>
+        </div>
+
+        <div class="profile">
+          <img src="../src/assets/editorial.png" alt="Prof Ahmed Bello" />
+          <h3>Pro Ahmed Bello</h3>
+          <p><strong>Editor-in-Chief</strong></p>
+          <p>Dean, College of Social and Management Sciences</p>
+          <p>Achievers University</p>
+          <p>Owo, Ondo State - Nigeria</p>
+        </div>
+
+        <div class="profile">
+          <img src="../src/assets/editorial.png" alt="Prof Ahmed Bello" />
+          <h3>Pro Ahmed Bello</h3>
+          <p><strong>Editor-in-Chief</strong></p>
+          <p>Dean, College of Social and Management Sciences</p>
+          <p>Achievers University</p>
+          <p>Owo, Ondo State - Nigeria</p>
+        </div>
+
+        <div class="profile">
+          <img src="../src/assets/editorial.png" alt="Prof Ahmed Bello" />
+          <h3>Pro Ahmed Bello</h3>
+          <p><strong>Editor-in-Chief</strong></p>
+          <p>Dean, College of Social and Management Sciences</p>
+          <p>Achievers University</p>
+          <p>Owo, Ondo State - Nigeria</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-content">
+        <div class="footer-left">
+          <div class="footer-logo">
+            <div class="footer-logo-circle"></div>
+            <div class="footer-logo-text">AJE Journal</div>
+          </div>
+          <div class="footer-links">
+            <a href="#">Journals</a>
+            <a href="#">Publish</a>
+            <a href="#">Editorial Board</a>
+          </div>
+        </div>
+
+        <div class="footer-right">
+          <div class="newsletter">
+            <h3>Stay up to date with our newsletter</h3>
+            <div class="newsletter-form">
+              <input type="email" placeholder="Enter your email" />
+              <button>Subscribe</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+        <div class="copyright">© 2025 AJE. All rights reserved.</div>
+      </div>
+    </footer>
+  </body>
+</html>
