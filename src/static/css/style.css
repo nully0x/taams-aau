@@ -361,6 +361,7 @@ p {
 }
 
 .main-content {
+    margin-top: 200px;
     display: flex;
     max-width: 1200px;
     background: white;
