@@ -1,5 +1,64 @@
 <!-- src/templates/submissions/submit.html -->
 {% extends "layouts/base.html" %} {% block content %}
-<h1>Paper Submission</h1>
-<p>This is a placeholder for paper submission.</p>
+<!-- container -->
+<section class="submit-article">
+    <div class="container">
+        <h1>Submit an Article</h1>
+        <p>
+            You may contribute to Akungba Journal of Economics (AJE) by writing
+            and submitting articles for publication.
+        </p>
+        <div class="content">
+            <img
+                src="/static/assets/Image.png"
+                alt="A person writing an article"
+            />
+            <div class="form-container">
+                <form>
+                    <div class="form-group">
+                        <label>Full name</label>
+                        <input type="text" value="Samson Olusegun" />
+                    </div>
+                    <div class="form-group flex">
+                        <div class="form-group">
+                            <label>Email address</label>
+                            <input
+                                type="email"
+                                value="samsonolusegunis@gmail.com"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label>Phone number</label>
+                            <input type="text" value="081234567897" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Article title</label>
+                        <input
+                            type="text"
+                            value="Firm Attributes and Audit Reporting Timeliness of Listed Deposit Money Banks in Nigeria"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label>Abstract</label>
+                        <textarea rows="4" style="resize: none"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Upload file</label>
+                        <div class="upload-file">
+                            <span>Article.doc (12kb)</span>
+                            <button type="button">
+                                <i class="fas fa-upload"></i>
+                            </button>
+                        </div>
+                        <p>Acceptable file format is .doc</p>
+                    </div>
+                    <button class="submit-btn" type="submit">
+                        Submit Article
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}

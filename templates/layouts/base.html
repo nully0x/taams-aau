@@ -4,104 +4,71 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>{% block title %}Journal Site{% endblock %}</title>
-        <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
-        />
         <link rel="stylesheet" href="/static/css/style.css" />
-        <script src="/static/js/htmx.min.js"></script>
+        <script src="/static/js/main.js"></script>
     </head>
     <body>
-        <nav
-            class="navbar is-light"
-            role="navigation"
-            aria-label="main navigation"
-        >
-            <div class="navbar-brand">
-                <a class="navbar-item" href="/">
-                    <strong>Journal Site</strong>
-                </a>
-
-                <a
-                    role="button"
-                    class="navbar-burger"
-                    aria-label="menu"
-                    aria-expanded="false"
-                    data-target="navbarBasic"
-                >
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                </a>
-            </div>
-
-            <div id="navbarBasic" class="navbar-menu">
-                <div class="navbar-start">
-                    <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link"> Journals </a>
-                        <div class="navbar-dropdown">
-                            <a class="navbar-item" href="/journals/current">
-                                Current Issue
-                            </a>
-                            <a class="navbar-item" href="/journals/past">
-                                Past Issues
-                            </a>
-                        </div>
-                    </div>
-
-                    <a class="navbar-item" href="/submit"> Submit Paper </a>
-
-                    <a class="navbar-item" href="/call-for-papers">
-                        Call for Papers
-                    </a>
-
-                    <a class="navbar-item" href="/editorial-board">
-                        Editorial Board
-                    </a>
-
-                    <a class="navbar-item" href="/about"> About </a>
-                </div>
-
-                <div class="navbar-end">
-                    <div class="navbar-item">
-                        <div class="buttons">
-                            <a class="button is-primary" href="/admin/upload">
-                                <strong>Admin</strong>
-                            </a>
-                        </div>
+        <!-- Hero Section with Top Navigation -->
+        <header class="hero">
+            <!-- Top Navigation -->
+            <nav class="top-nav">
+                <div style="display: flex; align-items: center">
+                    <div class="circle"></div>
+                    <div class="logo">
+                        <a
+                            href="/"
+                            style="text-decoration: none; color: inherit"
+                            >AJE Journal</a
+                        >
                     </div>
                 </div>
-            </div>
-        </nav>
+                <div class="nav-items">
+                    <a href="/journals/current">Journals</a>
+                    <a href="/submit">Submit an Article</a>
+                    <a href="/editorial-board">Editorial Board</a>
+                    <a href="/about">About</a>
+                    <a href="/call-for-papers">Call for Papers</a>
+                </div>
+            </nav>
+
+            {% block hero %}{% endblock %}
+        </header>
 
         <section class="section">
             <div class="container">{% block content %}{% endblock %}</div>
         </section>
 
-        <footer class="footer">
-            <div class="content has-text-centered">
-                <p>
-                    <strong>Journal Site</strong> © 2024. All rights reserved.
-                </p>
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-left">
+                    <div class="footer-logo">
+                        <div class="footer-logo-circle"></div>
+                        <div class="footer-logo-text">AJE Journal</div>
+                    </div>
+                    <div class="footer-links">
+                        <a href="/journals/current">Journals</a>
+                        <a href="/submit">Publish</a>
+                        <a href="/editorial-board">Editorial Board</a>
+                    </div>
+                </div>
+
+                <div class="footer-right">
+                    <div class="newsletter">
+                        <h3>Stay up to date with our newsletter</h3>
+                        <div class="newsletter-form">
+                            <input
+                                type="email"
+                                placeholder="Enter your email"
+                            />
+                            <button>Subscribe</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+                <div class="copyright">© 2025 AJE. All rights reserved.</div>
             </div>
         </footer>
-
-        <script>
-            // Burger menu toggle
-            document.addEventListener("DOMContentLoaded", () => {
-                const $navbarBurgers = Array.prototype.slice.call(
-                    document.querySelectorAll(".navbar-burger"),
-                    0,
-                );
-                $navbarBurgers.forEach((el) => {
-                    el.addEventListener("click", () => {
-                        const target = el.dataset.target;
-                        const $target = document.getElementById(target);
-                        el.classList.toggle("is-active");
-                        $target.classList.toggle("is-active");
-                    });
-                });
-            });
-        </script>
     </body>
 </html>

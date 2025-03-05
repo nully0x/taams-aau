@@ -19,7 +19,13 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
             // Serve static files.
-            .service(fs::Files::new("/static", "./src/static").show_files_listing())
+            .service(
+                fs::Files::new("/static", "./src/static")
+                    .show_files_listing()
+                    .use_last_modified(true)
+                    .prefer_utf8(true)
+                    .disable_content_disposition(),
+            )
             // Register ALL your routes here:
             .service(routes::landing::landing_handler)
             .service(routes::journals::current_journals_handler)

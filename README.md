@@ -7,18 +7,26 @@ A web application for managing and publishing academic journals.
 - Rust (latest stable version)
 - Cargo
 - Git
+- Devbox(for linux only)
 
 ## Setup
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/aau-ajet.git
+git clone https://github.com/nully0x/aau-ajet.git
 cd aau-ajet
 ```
+> If you don't want to install rust, cargo or any other dev-dependencies, you can install devbox and it will install them in an isolated environment.
+> This is suitable for Linux and MacOs
+
+- Install devbox via `curl -fsSL https://get.jetify.com/devbox | bash`
+- Start devbox in the project's root with `devbox shell`
+
+> then you can skip to [Development](#Development) as the neccessary dev-dependencies has been provided in devbox.
 
 2. Install development dependencies:
 ```bash
-cargo install cargo-watch
+cargo install --locked bacon
 ```
 
 3. Create a `.env` file in the project root:
@@ -34,9 +42,11 @@ SERVER_HOST=0.0.0.0
 Start the development server with auto-reload:
 
 ```bash
-cargo watch -x 'run'
+bacon
 ```
 The application will be available at: http://localhost:8080
+
+> anytime you make a change, press r in the terminal the app is running to reload the changes.
 
 ## Project Structure
 
