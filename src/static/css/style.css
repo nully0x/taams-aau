@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -27,7 +29,7 @@ body {
     margin: 20px auto;
     background-color: white;
     border-radius: 40px;
-    width: 700px;
+    width: 850px;
     color: #1e73be;
 }
 
@@ -46,7 +48,7 @@ body {
 
 .nav-items {
     display: flex;
-    gap: 20px;
+    gap: 15px;
 }
 
 .nav-items a {
@@ -92,7 +94,7 @@ body {
 /* container */
 .container {
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 60px auto;
 }
 
 .editorial-head {
@@ -249,7 +251,17 @@ footer {
     align-items: center;
     min-height: 50vh;
     margin: 40px 0px;
+    background-color: #e5f4ff;
+    padding: 20px;
+    max-width: 1000px;
+    margin: 20px auto;
+    border-radius: 16px;
 }
+
+/* .submit-container{
+    max-width: 1200px;
+    margin: 0 auto;
+} */
 
 h1 {
     font-size: 1.5rem;
