@@ -1,4 +1,68 @@
 {% extends "layouts/base.html" %} {% block content %}
-<h1>Call for Papers</h1>
-<p>This is a placeholder for Call for Papers.</p>
+<div class="container-journal">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2>Explore Journals/<br />Articles</h2>
+      <h3>Categories</h3>
+      <ul>
+        <li class="active" onclick="filterArticles('all')">All</li>
+        <li onclick="filterArticles('latest')">Latest Articles</li>
+        <li onclick="filterArticles('current')">Current Edition</li>
+        <li onclick="filterArticles('past')">Past Issue</li>
+      </ul>
+    </aside>
+  
+    <!-- Main Content -->
+    <main class="content-journal">
+      <div class="filter-section">
+        <span id="filterTitle">Showing for all articles/journals</span>
+        <div class="filters">
+          <div class="input-wrapper">
+            <i class="fas fa-filter"></i>
+            <input type="text" placeholder="Vol No." />
+          </div>
+          <div class="input-wrapper">
+            <i class="fas fa-filter"></i>
+            <input type="text" placeholder="Issue No." />
+          </div>
+          <button>Apply Filter</button>
+        </div>
+      </div>
+  
+      <!-- Journal Articles Grid -->
+      <div class="articles-journal" id="articleContainer"></div>
+      <button class="save-button">Load More</button>
+    </main>
+  </div>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      filterArticles("all"); // Load all articles by default
+    });
+  
+    function filterArticles(category) {
+      let container = document.getElementById("articleContainer");
+      let title = document.getElementById("filterTitle");
+      container.innerHTML = ""; // Clear existing articles
+  
+      let articleHTML = `
+          <div class="article-card-journal">
+            <p class="volume">Volume: 9(4)2024 | Page: 54-68</p>
+            <h4 class="title" style="color: #004680; margin: 15px 0px;">Firm Attributes and Audit Reporting Timeliness of Listed Deposit Money Banks in Nigeria</h4>
+            <p class="abstract" style="margin-bottom: 15px;"><strong>Abstract:</strong> This study investigates the effect of firm attributes on the audit reporting timeliness of listed Deposit Money Banks in Nigeria from 2013...</p>
+            <p class="authors" style="display: flex"; align-items: center;><img src="/static/assets/group.png"  style="margin-right: 5px; width: 20px; height:  20px;">Kwaghfan Aondoakaa, Luper Iorpev, Gbulum Titus Tyolumun |</p>
+          </div>`;
+  
+      if (category === "all") {
+        title.innerText = "Showing for all articles/journals";
+        container.innerHTML = articleHTML.repeat(10); // Show four articles by default
+      } else {
+        title.innerText = `Showing for ${category.replace(
+          "-",
+          " "
+        )} articles`;
+        container.innerHTML = articleHTML.repeat(4); // Show four filtered articles
+      }
+    }
+  </script>
 {% endblock %}

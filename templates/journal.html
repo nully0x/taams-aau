@@ -40,7 +40,7 @@
       }
 
       .hero {
-        background-image: url("../src/assets/Rectangle\ 2.png");
+        background-image: url("../src/assets/Rectangle\ 1.png");
         color: white;
         padding: 20px;
         text-align: center;
@@ -89,8 +89,9 @@
       }
 
       .hero h1 {
-        font-size: 28px;
+        font-size: 64px;
         margin-bottom: 10px;
+        margin-top: 100px;
       }
 
       .hero p {
@@ -98,85 +99,150 @@
         font-size: 16px;
       }
 
-      .hero-buttons {
-        margin-top: 20px;
+      .search-container {
+        display: flex;
+        align-items: center;
+        background: white;
+        border-radius: 5px;
+        padding: 3px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        width: 300px;
+        margin: 0 auto;
       }
-
-      .btn {
-        display: inline-block;
-        padding: 8px 20px;
-        border: 1px solid white;
-        background: transparent;
+      .search-container input {
+        border: none;
+        outline: none;
+        padding: 5px;
+        width: 250px;
+      }
+      .search-container button {
+        background-color: #007bff;
         color: white;
-        text-decoration: none;
-        margin: 0 5px;
-        font-size: 14px;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
       }
-
-      .btn-filled {
-        background-color: white;
-        color: #1e73be;
+      .search-container button:hover {
+        background-color: #0056b3;
+      }
+      .search-icon {
+        padding: 10px;
+        color: gray;
       }
 
       /* container */
-      .container{
-        margin: 50px;
+      .container {
+        display: flex;
+        margin: 30px 40px;
       }
 
-      .breadcrumb {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 50px;
-        }
-        .breadcrumb a {
-            text-decoration: none;
-            color: #1e73be;
-        }
-        .volume {
-            font-size: 14px;
-            margin-top: 10px;
-            color: #666;
-        }
-        .authors {
-            font-size: 16px;
-            margin: 10px 0;
-        }
-        .article-title {
-            font-size: 20px;
-            font-weight: bold;
-            color: #1e73be;
-            margin-bottom: 10px;
-        }
-        .abstract {
-            font-size: 14px;
-            text-align: justify;
-            border-top: 1px solid #ddd;
-            padding-top: 10px;
-        }
-        .keywords, .citation {
-            font-size: 14px;
-            margin-top: 10px;
-        }
-        .keywords {
-            font-weight: bold;
-        }
-        .citation {
-            font-style: italic;
-            color: #555;
-        }
-        .download-btn {
-            display: inline-block;
-            background-color: #1e73be;
-            color: white;
-            padding: 10px 20px;
-            margin-top: 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 14px;
-        }
-        .download-btn:hover {
-            background-color: #155a9b;
-        }
+      .sidebar {
+        width: 250px;
+        background: white;
+        padding: 20px;
+        border-right: 1px solid #ddd;
+      }
+
+      .sidebar h2 {
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      .sidebar h3 {
+        font-size: 16px;
+        margin-top: 20px;
+      }
+
+      .sidebar ul {
+        list-style: none;
+        padding: 0;
+        margin: 10px 0 0;
+      }
+
+      .sidebar ul li {
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+
+      .sidebar ul li.active {
+        background: #0056b3;
+        color: white;
+      }
+
+      .content {
+        flex: 1;
+        padding: 20px;
+      }
+
+      .filter-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .filters {
+        display: flex;
+        gap: 10px;
+      }
+
+      .input-wrapper {
+        display: flex;
+        align-items: center;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 5px;
+      }
+
+      .input-wrapper i {
+        margin-right: 5px;
+        color: #777;
+      }
+
+      .filters input {
+        border: none;
+        outline: none;
+      }
+
+      .filters button {
+        padding: 5px 10px;
+        background: #0070CC;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .articles {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+      }
+
+      .article-card {
+        background: white;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .save-button {
+    display: block;
+    margin: 20px auto; /* Center horizontally */
+    padding: 10px 20px;
+    background-color: #0070CC;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .save-button:hover {
+    background-color: #0056b3;
+  }
 
       /* Footer */
       footer {
@@ -293,6 +359,18 @@
           <a href="#">Editorial Board</a>
         </div>
       </nav>
+
+      <h1>Journals/Articles</h1>
+      <p>
+        Explore the latest research and innovations from researchers and stay
+        <br />
+        up-to-date with the latest developments
+      </p>
+      <div class="search-container">
+        <span class="search-icon"><img src="../src/assets/Vector (2).png" alt=""></span>
+        <input type="text" placeholder="Search for an article" />
+        <button>Search</button>
+      </div>
     </header>
 
     <div class="container">
@@ -330,6 +408,37 @@
         <button class="save-button">Load More</button>
       </main>
     </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        filterArticles("all"); // Load all articles by default
+      });
+
+      function filterArticles(category) {
+        let container = document.getElementById("articleContainer");
+        let title = document.getElementById("filterTitle");
+        container.innerHTML = ""; // Clear existing articles
+
+        let articleHTML = `
+            <div class="article-card">
+              <p class="volume">Volume: 9(4)2024 | Page: 54-68</p>
+              <h4 class="title" style="color: #004680; margin: 15px 0px;">Firm Attributes and Audit Reporting Timeliness of Listed Deposit Money Banks in Nigeria</h4>
+              <p class="abstract" style="margin-bottom: 15px;"><strong>Abstract:</strong> This study investigates the effect of firm attributes on the audit reporting timeliness of listed Deposit Money Banks in Nigeria from 2013...</p>
+              <p class="authors" style="display: flex"; align-items: center;><img src="../src/assets/group.png" style="margin-right: 5px; width: 20px; height:  20px;">Kwaghfan Aondoakaa, Luper Iorpev, Gbulum Titus Tyolumun |</p>
+            </div>`;
+
+        if (category === "all") {
+          title.innerText = "Showing for all articles/journals";
+          container.innerHTML = articleHTML.repeat(10); // Show four articles by default
+        } else {
+          title.innerText = `Showing for ${category.replace(
+            "-",
+            " "
+          )} articles`;
+          container.innerHTML = articleHTML.repeat(4); // Show four filtered articles
+        }
+      }
+    </script>
 
     <!-- Footer -->
     <footer>
