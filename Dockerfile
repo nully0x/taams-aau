@@ -27,12 +27,6 @@ COPY --from=builder /usr/src/aau-ajet/target/release/journal-site /usr/src/aau-a
 COPY --from=builder /usr/src/aau-ajet/src/static /usr/src/aau-ajet/src/static
 COPY --from=builder /usr/src/aau-ajet/templates /usr/src/aau-ajet/templates
 
-# Create a directory for the SQLite database
-RUN mkdir -p /data
-VOLUME ["/data"]
-
-# Set environment variables
-ENV DATABASE_URL=/data/submissions.db
 ENV RUST_LOG=info
 
 # Expose the port the app runs on
