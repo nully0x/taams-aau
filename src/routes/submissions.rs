@@ -4,7 +4,7 @@ use askama::Template;
 
 //src/routes/submissions.rs
 #[derive(Template)]
-#[template(path = "submissions/submit.html")] //Corrected
+#[template(path = "submissions/submit.html")]
 struct SubmissionsTemplate {}
 
 #[get("/submit")]

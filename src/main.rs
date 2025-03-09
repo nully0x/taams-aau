@@ -35,7 +35,7 @@ async fn main() -> std::io::Result<()> {
             .service(routes::about::about_handler)
             .service(routes::submissions::submit_paper_handler)
             .service(routes::editorial::editorial_board_handler)
-            .service(routes::call_for_papers::call_for_papers_handler)
+            .service(routes::journals::journal_handler)
     })
     .bind((host, port))?
     .run()

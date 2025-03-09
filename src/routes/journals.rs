@@ -33,3 +33,12 @@ pub async fn journal_detail_handler(id: web::Path<i32>) -> impl Responder {
     let journal_id = id.into_inner();
     HttpResponse::Ok().body(JournalDetailTemplate { id: journal_id }.render().unwrap())
 }
+
+#[derive(Template)]
+#[template(path = "journals/journal.html")]
+struct Journal {}
+
+#[get("/journal")]
+pub async fn journal_handler() -> impl Responder {
+    HttpResponse::Ok().body(Journal {}.render().unwrap())
+}
