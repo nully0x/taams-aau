@@ -579,8 +579,10 @@ p {
 }
 
 .sidebar ul li.active {
-    background: #0056b3;
-    color: white;
+    background: #e5f4ff;
+    color: black;
+    border-bottom: 2px solid #0056b3;
+    border-radius: 0px;
 }
 
 .content-journal {
@@ -688,7 +690,7 @@ p {
 .abstract {
     font-size: 14px;
     text-align: justify;
-    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
     padding-top: 10px;
 }
 .keywords,
