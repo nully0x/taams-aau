@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <title>Journal Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #f7f7f7;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 2rem;
+            background-color: white;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .nav-left {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-circle {
+            width: 40px;
+            height: 40px;
+            background-color: #1a0f5e;
+            border-radius: 50%;
+            margin-right: 1rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .nav-link {
+            color: #101828;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 400;
+        }
+        
+        .nav-link.active {
+            color: #2A166F;
+            font-weight: 600;
+        }
+        
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .nav-icon {
+            color: #555;
+            cursor: pointer;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #ddd;
+            overflow: hidden;
+        }
+        
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .user-details {
+            display: flex;
+            flex-direction: column;
+            font-size: 0.8rem;
+        }
+        
+        .user-name {
+            font-size: 16px;
+            color: #101828;
+            font-weight: 600;
+        }
+        
+        .user-email {
+            color: #374151;
+            font-size: 14px;
+        }
+        
+        .content {
+            padding: 2rem;
+        }
+        
+        .welcome-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .welcome-text h1 {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .welcome-text p {
+            color: #666;
+        }
+        
+        .upload-btn {
+            background-color: #1a0f5e;
+            color: white;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .sub-section {
+            display: flex;
+            gap: 10px;
+            max-width: 800px;
+            padding: 15px 0px;
+            border-radius: 4px;
+        }
+        
+        .sub-item {
+            display: flex;
+            align-items: center;
+            padding-right: 30px;
+        }
+        
+        .sub-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #383b61;
+            margin-right: 10px;
+        }
+        
+        .sub-value {
+            display: inline-block;
+            background-color: #e9ebf0;
+            color: #4a4a4a;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 2px 10px;
+            border-radius: 40%;
+        }
+        
+        .recent-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .recent-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .recent-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #101828;
+        }
+        
+        .view-all {
+            color: #2A166F;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .articles-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .articles-table th {
+            background-color: #f1f1ff;
+            text-align: left;
+            padding: 0.75rem 1rem;
+            color: #374151;
+            font-weight: 500;
+            font-size: 16px;
+        }
+        
+        .articles-table td {
+            padding: 0.75rem 1rem;
+            border-top: 1px solid #eee;
+            font-size: 16px;
+            font-weight: 400;
+            color: 400;
+        }
+        
+        .download-btn {
+            color: #2A166F;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .download-icon {
+            width: 16px;
+            height: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="nav-left">
+            <div class="nav-circle"></div>
+            <div class="nav-links">
+                <a href="#" class="nav-link active">Dashboard</a>
+                <a href="#" class="nav-link">All Articles</a>
+            </div>
+        </div>
+        <div class="nav-right">
+            <div class="nav-icon">
+                <ion-icon name="notifications-outline" style="width: 24px; height: 24px;"></ion-icon>
+            </div>
+            <div class="nav-icon">
+                <ion-icon name="log-out-outline" style="width: 24px; height: 24px;"></ion-icon>
+            </div>
+            <div class="user-info">
+                <div class="user-avatar">
+                    <img src="/api/placeholder/40/40" alt="User Avatar">
+                </div>
+                <div class="user-details">
+                    <span class="user-name">Samson Iyabo</span>
+                    <span class="user-email">samsoniyabo@gmail.com</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="content">
+        <div class="welcome-section">
+            <div class="welcome-text">
+                <h1>Hello Samson!</h1>
+                <p>It's good to have you back</p>
+            </div>
+            <button class="upload-btn">Upload/Publish Article</button>
+        </div>
+        
+        <div class="sub-section">
+            <div class="sub-item">
+                <span class="sub-name">Submitted Articles</span>
+                <span class="sub-value">29</span>
+            </div>
+            
+            <div class="sub-item">
+                <span class="sub-name">Downloaded</span>
+                <span class="sub-value">50</span>
+            </div>
+            
+            <div class="sub-item">
+                <span class="sub-name">Published</span>
+                <span class="sub-value">120</span>
+            </div>
+        </div>
+        
+        <div class="recent-section">
+            <div class="recent-header">
+                <div style="display: flex; align-items: center;">
+                    <h2 style="margin-right: 15px; font-size: 18px; color: #333; font-weight: 600;">Submitted articles</h2>
+                    <div style="position: relative; display: flex; align-items: center;">
+                      <input type="text" placeholder="Search for article" style="padding: 8px 35px 8px 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; width: 180px;">
+                      <ion-icon name="search-outline" style="position: absolute; right: 10px; color: #777; font-size: 18px;"></ion-icon>
+                    </div>
+                  </div>
+                <a href="#" class="view-all">View All Submitted Articles</a>
+            </div>
+            <table class="articles-table">
+                <thead>
+                    <tr>
+                        <th>S/N</th>
+                        <th>Article title</th>
+                        <th>Submitted by</th>
+                        <th>Submitted on</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Firm Attributes and Audit Reporting Timeliness of Listed Deposit Money Banks in Nigeria</td>
+                        <td>Audrey Goodwill</td>
+                        <td>12th May, 2023</td>
+                        <td>
+                            <a href="#" class="download-btn">
+                                Download
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="download-icon">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Firm Attributes and Audit Reporting Timeliness of Listed Deposit Money Banks in Nigeria</td>
+                        <td>Audrey Goodwill</td>
+                        <td>12th May, 2023</td>
+                        <td>
+                            <a href="#" class="download-btn">
+                                Download
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="download-icon">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Firm Attributes and Audit Reporting Timeliness of Listed Deposit Money Banks in Nigeria</td>
+                        <td>Audrey Goodwill</td>
+                        <td>12th May, 2023</td>
+                        <td>
+                            <a href="#" class="download-btn">
+                                Download
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="download-icon">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Firm Attributes and Audit Reporting Timeliness of Listed Deposit Money Banks in Nigeria</td>
+                        <td>Audrey Goodwill</td>
+                        <td>12th May, 2023</td>
+                        <td>
+                            <a href="#" class="download-btn">
+                                Download
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="download-icon">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Firm Attributes and Audit Reporting Timeliness of Listed Deposit Money Banks in Nigeria</td>
+                        <td>Audrey Goodwill</td>
+                        <td>12th May, 2023</td>
+                        <td>
+                            <a href="#" class="download-btn">
+                                Download
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="download-icon">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Firm Attributes and Audit Reporting Timeliness of Listed Deposit Money Banks in Nigeria</td>
+                        <td>Audrey Goodwill</td>
+                        <td>12th May, 2023</td>
+                        <td>
+                            <a href="#" class="download-btn">
+                                Download
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="download-icon">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Firm Attributes and Audit Reporting Timeliness of Listed Deposit Money Banks in Nigeria</td>
+                        <td>Audrey Goodwill</td>
+                        <td>12th May, 2023</td>
+                        <td>
+                            <a href="#" class="download-btn">
+                                Download
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="download-icon">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Firm Attributes and Audit Reporting Timeliness of Listed Deposit Money Banks in Nigeria</td>
+                        <td>Audrey Goodwill</td>
+                        <td>12th May, 2023</td>
+                        <td>
+                            <a href="#" class="download-btn">
+                                Download
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="download-icon">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Firm Attributes and Audit Reporting Timeliness of Listed Deposit Money Banks in Nigeria</td>
+                        <td>Audrey Goodwill</td>
+                        <td>12th May, 2023</td>
+                        <td>
+                            <a href="#" class="download-btn">
+                                Download
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="download-icon">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Firm Attributes and Audit Reporting Timeliness of Listed Deposit Money Banks in Nigeria</td>
+                        <td>Audrey Goodwill</td>
+                        <td>12th May, 2023</td>
+                        <td>
+                            <a href="#" class="download-btn">
+                                Download
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="download-icon">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Firm Attributes and Audit Reporting Timeliness of Listed Deposit Money Banks in Nigeria</td>
+                        <td>Audrey Goodwill</td>
+                        <td>12th May, 2023</td>
+                        <td>
+                            <a href="#" class="download-btn">
+                                Download
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="download-icon">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Firm Attributes and Audit Reporting Timeliness of Listed Deposit Money Banks in Nigeria</td>
+                        <td>Audrey Goodwill</td>
+                        <td>12th May, 2023</td>
+                        <td>
+                            <a href="#" class="download-btn">
+                                Download
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="download-icon">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Firm Attributes and Audit Reporting Timeliness of Listed Deposit Money Banks in Nigeria</td>
+                        <td>Audrey Goodwill</td>
+                        <td>12th May, 2023</td>
+                        <td>
+                            <a href="#" class="download-btn">
+                                Download
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="download-icon">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Firm Attributes and Audit Reporting Timeliness of Listed Deposit Money Banks in Nigeria</td>
+                        <td>Audrey Goodwill</td>
+                        <td>12th May, 2023</td>
+                        <td>
+                            <a href="#" class="download-btn">
+                                Download
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="download-icon">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Firm Attributes and Audit Reporting Timeliness of Listed Deposit Money Banks in Nigeria</td>
+                        <td>Audrey Goodwill</td>
+                        <td>12th May, 2023</td>
+                        <td>
+                            <a href="#" class="download-btn">
+                                Download
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="download-icon">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Firm Attributes and Audit Reporting Timeliness of Listed Deposit Money Banks in Nigeria</td>
+                        <td>Audrey Goodwill</td>
+                        <td>12th May, 2023</td>
+                        <td>
+                            <a href="#" class="download-btn">
+                                Download
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="download-icon">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Firm Attributes and Audit Reporting Timeliness of Listed Deposit Money Banks in Nigeria</td>
+                        <td>Audrey Goodwill</td>
+                        <td>12th May, 2023</td>
+                        <td>
+                            <a href="#" class="download-btn">
+                                Download
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="download-icon">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Firm Attributes and Audit Reporting Timeliness of Listed Deposit Money Banks in Nigeria</td>
+                        <td>Audrey Goodwill</td>
+                        <td>12th May, 2023</td>
+                        <td>
+                            <a href="#" class="download-btn">
+                                Download
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="download-icon">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Firm Attributes and Audit Reporting Timeliness of Listed Deposit Money Banks in Nigeria</td>
+                        <td>Audrey Goodwill</td>
+                        <td>12th May, 2023</td>
+                        <td>
+                            <a href="#" class="download-btn">
+                                Download
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="download-icon">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Firm Attributes and Audit Reporting Timeliness of Listed Deposit Money Banks in Nigeria</td>
+                        <td>Audrey Goodwill</td>
+                        <td>12th May, 2023</td>
+                        <td>
+                            <a href="#" class="download-btn">
+                                Download
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="download-icon">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 800px; margin: 20px auto; font-family: Arial, sans-serif;">
+                <button style="display: flex; align-items: center; padding: 6px 12px; border: 1px solid #e0e0e0; background-color: white; border-radius: 4px; cursor: pointer; font-size: 14px;">
+                    <ion-icon name="arrow-back-outline" style="margin-right: 6px;"></ion-icon>
+                    Previous
+                </button>
+                
+                <div style="display: flex; align-items: center; gap: 5px;">
+                    <a href="#" style="display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 4px; color: #333; text-decoration: none; font-size: 14px; border: 1px solid #e0e0e0; background-color: #f9f9f9;">1</a>
+                    <a href="#" style="display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 4px; color: #333; text-decoration: none; font-size: 14px;">2</a>
+                    <a href="#" style="display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 4px; color: #333; text-decoration: none; font-size: 14px;">3</a>
+                    <span style="color: #777; margin: 0 5px;">...</span>
+                    <a href="#" style="display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 4px; color: #333; text-decoration: none; font-size: 14px;">8</a>
+                    <a href="#" style="display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 4px; color: #333; text-decoration: none; font-size: 14px;">9</a>
+                    <a href="#" style="display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 4px; color: #333; text-decoration: none; font-size: 14px;">10</a>
+                </div>
+                
+                <button style="display: flex; align-items: center; padding: 6px 12px; border: 1px solid #e0e0e0; background-color: white; border-radius: 4px; cursor: pointer; font-size: 14px;">
+                    Next
+                    <ion-icon name="arrow-forward-outline" style="margin-left: 6px;"></ion-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
