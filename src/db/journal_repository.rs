@@ -48,11 +48,12 @@ impl JournalRepository {
                 let naive_dt = NaiveDateTime::from_timestamp_opt(timestamp, 0).unwrap();
                 let publication_date = DateTime::<Utc>::from_utc(naive_dt, Utc);
 
-                let created_at = created_at_str.and_then(|s| {
-                    NaiveDateTime::parse_from_str(&s, "%Y-%m-%d %H:%M:%S")
+                let created_at = match created_at_str {
+                    Some(s) => NaiveDateTime::parse_from_str(&s, "%Y-%m-%d %H:%M:%S")
                         .ok()
-                        .map(|dt| DateTime::<Utc>::from_utc(dt, Utc))
-                });
+                        .map(|dt| DateTime::<Utc>::from_utc(dt, Utc)),
+                    None => None,
+                };
 
                 Ok(Journal {
                     id: Some(row.get(0)?),
@@ -90,11 +91,12 @@ impl JournalRepository {
                 let naive_dt = NaiveDateTime::from_timestamp_opt(timestamp, 0).unwrap();
                 let publication_date = DateTime::<Utc>::from_utc(naive_dt, Utc);
 
-                let created_at = created_at_str.and_then(|s| {
-                    NaiveDateTime::parse_from_str(&s, "%Y-%m-%d %H:%M:%S")
+                let created_at = match created_at_str {
+                    Some(s) => NaiveDateTime::parse_from_str(&s, "%Y-%m-%d %H:%M:%S")
                         .ok()
-                        .map(|dt| DateTime::<Utc>::from_utc(dt, Utc))
-                });
+                        .map(|dt| DateTime::<Utc>::from_utc(dt, Utc)),
+                    None => None,
+                };
 
                 Ok(Journal {
                     id: Some(row.get(0)?),
