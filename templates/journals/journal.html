@@ -1,18 +1,16 @@
 {% extends "layouts/base.html" %} {% block content %}
 <div class="container-journal">
-    <!-- Sidebar -->
     <aside class="sidebar">
         <h2>Explore Journals/<br />Articles</h2>
         <h3>Categories</h3>
         <ul>
-            <li class="active" onclick="filterArticles('all')">All</li>
-            <li onclick="filterArticles('latest')">Latest Articles</li>
-            <li onclick="filterArticles('current')">Current Edition</li>
-            <li onclick="filterArticles('past')">Past Issue</li>
+            <li class="active" data-category="all">All</li>
+            <li data-category="latest">Latest Articles</li>
+            <li data-category="current">Current Edition</li>
+            <li data-category="past">Past Issue</li>
         </ul>
     </aside>
 
-    <!-- Main Content -->
     <main class="content-journal">
         <div class="filter-section">
             <span id="filterTitle">Showing for all articles/journals</span>
@@ -29,40 +27,104 @@
             </div>
         </div>
 
-        <!-- Journal Articles Grid -->
-        <div class="articles-journal" id="articleContainer"></div>
-        <button class="save-button">Load More</button>
+        <div class="articles-journal" id="journalContainer">
+            {% for journal in journals %}
+            <div
+                class="article-card-journal"
+                onclick="window.location.href='/journals/{{journal.id_string()}}'"
+                style="cursor: pointer"
+            >
+                <p class="volume">
+                    Volume: {{journal.volume}} | Page: {{journal.pages}}
+                </p>
+                <h4 class="title" style="color: #004680; margin: 15px 0px">
+                    {{journal.title}}
+                </h4>
+                <p class="abstract" style="margin-bottom: 15px">
+                    <strong>Abstract:</strong> {{journal.abstract_text}}
+                </p>
+                <p class="authors" style="display: flex; align-items: center">
+                    <img
+                        src="/static/assets/group.png"
+                        style="margin-right: 5px; width: 20px; height: 20px"
+                    />
+                    {{journal.authors}}
+                </p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <script>
+            let currentPage = 1;
+            let currentCategory = "all";
+
+            function createJournalCard(journal) {
+                const idString = journal.id ? journal.id.toString() : "";
+                return `
+                    <div class="article-card-journal" onclick="window.location.href='/journals/${idString}'" style="cursor: pointer;">
+                        <p class="volume">Volume: ${journal.volume} | Page: ${journal.pages}</p>
+                        <h4 class="title" style="color: #004680; margin: 15px 0px">${journal.title}</h4>
+                        <p class="abstract" style="margin-bottom: 15px">
+                            <strong>Abstract:</strong> ${journal.abstract_text}
+                        </p>
+                        <p class="authors" style="display: flex; align-items: center">
+                            <img src="/static/assets/group.png" style="margin-right: 5px; width: 20px; height: 20px"/>
+                            ${journal.authors}
+                        </p>
+                    </div>
+                `;
+            }
+
+            document.querySelectorAll(".sidebar li").forEach((item) => {
+                item.addEventListener("click", async () => {
+                    document
+                        .querySelector(".sidebar li.active")
+                        .classList.remove("active");
+                    item.classList.add("active");
+
+                    currentPage = 1;
+                    currentCategory = item.dataset.category;
+
+                    document.getElementById("filterTitle").textContent =
+                        `Showing for ${item.textContent} articles`;
+
+                    await fetchJournals();
+                });
+            });
+
+            document
+                .getElementById("loadMoreBtn")
+                ?.addEventListener("click", async () => {
+                    currentPage++;
+                    await fetchJournals(true);
+                });
+
+            async function fetchJournals(append = false) {
+                try {
+                    const response = await fetch(
+                        `/api/journals?page=${currentPage}&category=${currentCategory}&limit=12`,
+                    );
+                    const data = await response.json();
+
+                    const container =
+                        document.getElementById("journalContainer");
+                    const journalHtml = data.journals
+                        .map(createJournalCard)
+                        .join("");
+
+                    if (!append) {
+                        container.innerHTML = journalHtml;
+                    } else {
+                        container.insertAdjacentHTML("beforeend", journalHtml);
+                    }
+
+                    const loadMoreBtn = document.getElementById("loadMoreBtn");
+                    loadMoreBtn.style.display = data.hasMore ? "block" : "none";
+                } catch (error) {
+                    console.error("Error fetching journals:", error);
+                }
+            }
+        </script>
+        {% endblock %}
     </main>
 </div>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        filterArticles("all"); // Load all articles by default
-    });
-
-    function filterArticles(category) {
-        let container = document.getElementById("articleContainer");
-        let title = document.getElementById("filterTitle");
-        container.innerHTML = ""; // Clear existing articles
-
-        let articleHTML = `
-          <div class="article-card-journal">
-            <p class="volume">Volume: 9(4)2024 | Page: 54-68</p>
-            <h4 class="title" style="color: #004680; margin: 15px 0px;">Firm Attributes and Audit Reporting Timeliness of Listed Deposit Money Banks in Nigeria</h4>
-            <p class="abstract" style="margin-bottom: 15px;"><strong>Abstract:</strong> This study investigates the effect of firm attributes on the audit reporting timeliness of listed Deposit Money Banks in Nigeria from 2013...</p>
-            <p class="authors" style="display: flex"; align-items: center;><img src="/static/assets/group.png"  style="margin-right: 5px; width: 20px; height:  20px;">Kwaghfan Aondoakaa, Luper Iorpev, Gbulum Titus Tyolumun |</p>
-          </div>`;
-
-        if (category === "all") {
-            title.innerText = "Showing for all articles/journals";
-            container.innerHTML = articleHTML.repeat(10); // Show four articles by default
-        } else {
-            title.innerText = `Showing for ${category.replace(
-                "-",
-                " ",
-            )} articles`;
-            container.innerHTML = articleHTML.repeat(4); // Show four filtered articles
-        }
-    }
-</script>
-{% endblock %}

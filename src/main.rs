@@ -36,6 +36,11 @@ async fn main() -> std::io::Result<()> {
                     .prefer_utf8(true)
                     .disable_content_disposition(),
             )
+            .service(
+                fs::Files::new("/uploads", "./uploads")
+                    .show_files_listing()
+                    .use_last_modified(true),
+            )
             // Register ALL your routes here:
             .service(routes::landing::landing_handler)
             .service(routes::journals::current_journals_handler)
@@ -47,6 +52,8 @@ async fn main() -> std::io::Result<()> {
             .service(routes::editorial::editorial_board_handler)
             .service(routes::journals::journal_handler)
             .service(routes::admin::process_upload)
+            .service(routes::submissions::process_submission)
+            .service(routes::journals::journal_api_handler)
     })
     .bind((host, port))?
     .run()

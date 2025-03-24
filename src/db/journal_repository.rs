@@ -122,6 +122,145 @@ impl JournalRepository {
     }
 
     pub fn get_latest_journals(&self, limit: i32) -> Result<Vec<Journal>, SubmissionError> {
-        self.get_all_journals(limit, 0)
+        let mut stmt = self.conn.prepare(
+                "SELECT id, title, authors, abstract_text, keywords, volume, pages, publication_date, pdf_url, created_at
+                 FROM journals
+                 ORDER BY publication_date DESC
+                 LIMIT ?1"
+            ).map_err(|e| SubmissionError::DatabaseError(e.to_string()))?;
+
+        let journal_iter = stmt
+            .query_map(params![limit], |row| {
+                let timestamp: i64 = row.get(7)?;
+                let created_at_str: Option<String> = row.get(9)?;
+
+                let naive_dt = NaiveDateTime::from_timestamp_opt(timestamp, 0).unwrap();
+                let publication_date = DateTime::<Utc>::from_utc(naive_dt, Utc);
+
+                let created_at = match created_at_str {
+                    Some(s) => NaiveDateTime::parse_from_str(&s, "%Y-%m-%d %H:%M:%S")
+                        .ok()
+                        .map(|dt| DateTime::<Utc>::from_utc(dt, Utc)),
+                    None => None,
+                };
+
+                Ok(Journal {
+                    id: Some(row.get(0)?),
+                    title: row.get(1)?,
+                    authors: row.get(2)?,
+                    abstract_text: row.get(3)?,
+                    keywords: row.get(4)?,
+                    volume: row.get(5)?,
+                    pages: row.get(6)?,
+                    publication_date,
+                    pdf_url: row.get(8)?,
+                    created_at,
+                })
+            })
+            .map_err(|e| SubmissionError::DatabaseError(e.to_string()))?;
+
+        let mut journals = Vec::new();
+        for journal in journal_iter {
+            journals.push(journal.map_err(|e| SubmissionError::DatabaseError(e.to_string()))?);
+        }
+
+        Ok(journals)
+    }
+
+    pub fn get_current_edition(&self, limit: i32) -> Result<Vec<Journal>, SubmissionError> {
+        let mut stmt = self.conn.prepare(
+                "SELECT id, title, authors, abstract_text, keywords, volume, pages, publication_date, pdf_url, created_at
+                 FROM journals
+                 WHERE volume = (SELECT volume FROM journals ORDER BY publication_date DESC LIMIT 1)
+                 LIMIT ?1"
+            ).map_err(|e| SubmissionError::DatabaseError(e.to_string()))?;
+
+        let journal_iter = stmt
+            .query_map(params![limit], |row| {
+                let timestamp: i64 = row.get(7)?;
+                let created_at_str: Option<String> = row.get(9)?;
+
+                let naive_dt = NaiveDateTime::from_timestamp_opt(timestamp, 0).unwrap();
+                let publication_date = DateTime::<Utc>::from_utc(naive_dt, Utc);
+
+                let created_at = match created_at_str {
+                    Some(s) => NaiveDateTime::parse_from_str(&s, "%Y-%m-%d %H:%M:%S")
+                        .ok()
+                        .map(|dt| DateTime::<Utc>::from_utc(dt, Utc)),
+                    None => None,
+                };
+
+                Ok(Journal {
+                    id: Some(row.get(0)?),
+                    title: row.get(1)?,
+                    authors: row.get(2)?,
+                    abstract_text: row.get(3)?,
+                    keywords: row.get(4)?,
+                    volume: row.get(5)?,
+                    pages: row.get(6)?,
+                    publication_date,
+                    pdf_url: row.get(8)?,
+                    created_at,
+                })
+            })
+            .map_err(|e| SubmissionError::DatabaseError(e.to_string()))?;
+
+        let mut journals = Vec::new();
+        for journal in journal_iter {
+            journals.push(journal.map_err(|e| SubmissionError::DatabaseError(e.to_string()))?);
+        }
+
+        Ok(journals)
+    }
+
+    pub fn get_past_issues(
+        &self,
+        limit: i32,
+        offset: i32,
+    ) -> Result<Vec<Journal>, SubmissionError> {
+        let mut stmt = self.conn.prepare(
+                "SELECT id, title, authors, abstract_text, keywords, volume, pages, publication_date, pdf_url, created_at
+                 FROM journals
+                 WHERE volume != (SELECT volume FROM journals ORDER BY publication_date DESC LIMIT 1)
+                 ORDER BY publication_date DESC
+                 LIMIT ?1 OFFSET ?2"
+            ).map_err(|e| SubmissionError::DatabaseError(e.to_string()))?;
+
+        let journal_iter = stmt
+            .query_map(params![limit, offset], |row| {
+                let timestamp: i64 = row.get(7)?;
+                let created_at_str: Option<String> = row.get(9)?;
+
+                let naive_dt = NaiveDateTime::from_timestamp_opt(timestamp, 0).unwrap();
+                let publication_date = DateTime::<Utc>::from_utc(naive_dt, Utc);
+
+                let created_at = match created_at_str {
+                    Some(s) => NaiveDateTime::parse_from_str(&s, "%Y-%m-%d %H:%M:%S")
+                        .ok()
+                        .map(|dt| DateTime::<Utc>::from_utc(dt, Utc)),
+                    None => None,
+                };
+
+                Ok(Journal {
+                    id: Some(row.get(0)?),
+                    title: row.get(1)?,
+                    authors: row.get(2)?,
+                    abstract_text: row.get(3)?,
+                    keywords: row.get(4)?,
+                    volume: row.get(5)?,
+                    pages: row.get(6)?,
+                    publication_date,
+                    pdf_url: row.get(8)?,
+                    created_at,
+                })
+            })
+            .map_err(|e| SubmissionError::DatabaseError(e.to_string()))?;
+
+        let mut journals = Vec::new();
+        for journal in journal_iter {
+            journals.push(journal.map_err(|e| SubmissionError::DatabaseError(e.to_string()))?);
+        }
+
+        Ok(journals)
     }
 }

@@ -736,3 +736,25 @@ p {
     color: #721c24;
     border: 1px solid #f5c6cb;
 }
+
+article-card-journal,
+.pub-card {
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.article-card-journal:hover,
+.pub-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.download-btn {
+    transition: background-color 0.2s ease;
+}
+
+.download-btn:hover {
+    background-color: #1e73be;
+    text-decoration: none;
+}

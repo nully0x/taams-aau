@@ -1,6 +1,25 @@
-<!-- src/templates/journals/detail.html -->
 {% extends "layouts/base.html" %} {% block content %}
-<h1>Journal Detail</h1>
-<p>Journal ID: {{ id }}</p>
-<p>This is a placeholder for the journal detail page.</p>
+<div class="journal-container">
+    <div class="breadcrumb">Journals / <a href="#">Full Article</a></div>
+    <div class="volume">
+        Volume: {{journal.volume}} | Page: {{journal.pages}}
+    </div>
+    <div class="authors" style="display: flex; align-items: center">
+        <img src="/static/assets/group.png" alt="" style="margin-right: 5px" />
+        {{journal.authors}}
+    </div>
+    <div class="article-title">{{journal.title}}</div>
+    <div class="abstract">
+        <strong>Abstract:</strong> {{journal.abstract_text}}
+    </div>
+    <div class="keywords">Keywords: {{journal.keywords}}</div>
+    <div class="citation">
+        Citation: {{journal.authors}} ({{journal.publication_date.year()}}).
+        {{journal.title}}. African Journal of Educational Technology,
+        {{journal.volume}}, {{journal.pages}}.
+    </div>
+    <a href="{{journal.pdf_url}}" class="download-btn" target="_blank" download
+        >Download Full Article</a
+    >
+</div>
 {% endblock %}

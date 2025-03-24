@@ -1,21 +1,24 @@
-use actix_web::{get, HttpResponse, Responder};
+use actix_web::{get, HttpResponse};
 use askama::Template;
-use crate::config::get_journal_config;
+
+use crate::db::journal_repository::JournalRepository;
+use crate::db::schema::init_db;
+use crate::errors::SubmissionError;
+use crate::models::journals::Journal;
 
 #[derive(Template)]
 #[template(path = "landing.html")]
 struct LandingTemplate {
-    journal_name: String,
-    journal_field: String,
+    journals: Vec<Journal>,
 }
 
 #[get("/")]
-pub async fn landing_handler() -> impl Responder {
-    let config = get_journal_config();
-    let template = LandingTemplate {
-        journal_name: config.name,
-        journal_field: config.field,
-    };
+pub async fn landing_handler() -> Result<HttpResponse, SubmissionError> {
+    let conn = init_db().map_err(|e| SubmissionError::DatabaseError(e.to_string()))?;
+    let repository = JournalRepository::new(conn);
+    let journals = repository.get_latest_journals(3)?; // Get latest 3 journals
 
-    HttpResponse::Ok().body(template.render().unwrap())
+    let template = LandingTemplate { journals };
+
+    Ok(HttpResponse::Ok().body(template.render().unwrap()))
 }

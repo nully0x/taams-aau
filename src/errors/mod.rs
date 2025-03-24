@@ -1,3 +1,4 @@
+use crate::models::response::ValidationResponse;
 use actix_web::{error::ResponseError, HttpResponse};
 use serde::Serialize;
 use std::fmt;
@@ -32,6 +33,19 @@ pub struct ErrorResponse {
 
 // Implement std::error::Error
 impl std::error::Error for SubmissionError {}
+
+impl From<Vec<ValidationResponse>> for SubmissionError {
+    fn from(errors: Vec<ValidationResponse>) -> Self {
+        // Join all validation messages into a single string
+        let message = errors
+            .iter()
+            .map(|e| format!("{}: {}", e.field, e.message))
+            .collect::<Vec<String>>()
+            .join("; ");
+
+        SubmissionError::ValidationError(message)
+    }
+}
 
 impl ResponseError for SubmissionError {
     fn error_response(&self) -> HttpResponse {

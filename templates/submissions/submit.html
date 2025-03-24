@@ -14,51 +14,94 @@
                 alt="A person writing an article"
             />
             <div class="form-container">
-                <form>
+                <form id="submissionForm" enctype="multipart/form-data">
                     <div class="form-group">
                         <label>Full name</label>
-                        <input type="text" value="Samson Olusegun" />
+                        <input type="text" name="full_name" required />
                     </div>
                     <div class="form-group flex">
                         <div class="form-group">
                             <label>Email address</label>
-                            <input
-                                type="email"
-                                value="samsonolusegunis@gmail.com"
-                            />
+                            <input type="email" name="email" required />
                         </div>
                         <div class="form-group">
                             <label>Phone number</label>
-                            <input type="text" value="081234567897" />
+                            <input type="text" name="phone" required />
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Article title</label>
-                        <input
-                            type="text"
-                            value="Firm Attributes and Audit Reporting Timeliness of Listed Deposit Money Banks in Nigeria"
-                        />
+                        <input type="text" name="title" required />
                     </div>
                     <div class="form-group">
                         <label>Abstract</label>
-                        <textarea rows="4" style="resize: none"></textarea>
+                        <textarea
+                            name="abstract_text"
+                            rows="4"
+                            style="resize: none"
+                            required
+                        ></textarea>
                     </div>
                     <div class="form-group">
-                        <label>Upload file</label>
+                        <label>Upload PDF</label>
                         <div class="upload-file">
-                            <span>Article.doc (12kb)</span>
-                            <button type="button">
-                                <i class="fas fa-upload"></i>
-                            </button>
+                            <input
+                                type="file"
+                                name="pdf"
+                                accept=".pdf"
+                                required
+                            />
                         </div>
-                        <p>Acceptable file format is .doc</p>
+                        <p>Only PDF files are accepted</p>
                     </div>
                     <button class="submit-btn" type="submit">
                         Submit Article
                     </button>
                 </form>
+
+                <div id="submissionStatus" style="display: none">
+                    <p class="success" style="color: green"></p>
+                    <p class="error" style="color: red"></p>
+                </div>
             </div>
         </div>
     </div>
 </section>
+
+<script>
+    document
+        .getElementById("submissionForm")
+        .addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+            const statusDiv = document.getElementById("submissionStatus");
+            const successMsg = statusDiv.querySelector(".success");
+            const errorMsg = statusDiv.querySelector(".error");
+
+            try {
+                const response = await fetch("/submit", {
+                    method: "POST",
+                    body: formData,
+                });
+
+                const result = await response.json();
+
+                statusDiv.style.display = "block";
+                if (response.ok) {
+                    successMsg.textContent = result.message;
+                    errorMsg.textContent = "";
+                    e.target.reset();
+                } else {
+                    successMsg.textContent = "";
+                    errorMsg.textContent =
+                        result.message || "Submission failed";
+                }
+            } catch (error) {
+                statusDiv.style.display = "block";
+                successMsg.textContent = "";
+                errorMsg.textContent = "An error occurred during submission";
+            }
+        });
+</script>
 {% endblock %}

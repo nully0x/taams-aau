@@ -1,8 +1,9 @@
 // src/routes/journals.rs
 use actix_web::{get, web, HttpResponse, Responder};
 use askama::Template;
-use chrono::{DateTime, Utc};
+use chrono::{DateTime, Datelike, Utc};
 use serde::Deserialize;
+use serde_json::json;
 
 use crate::db::journal_repository::JournalRepository;
 use crate::db::schema::init_db;
@@ -25,7 +26,7 @@ struct PastJournalsTemplate {
 #[template(path = "journals/details.html")]
 struct JournalDetailTemplate {
     journal: Journal,
-    id: i32,
+    id_string: String, // Changed from i32 to String
 }
 
 #[derive(Template)]
@@ -38,6 +39,7 @@ struct JournalTemplate {
 pub struct JournalQueryParams {
     pub page: Option<i32>,
     pub limit: Option<i32>,
+    pub category: Option<String>,
 }
 
 #[get("/journals/current")]
@@ -75,7 +77,7 @@ pub async fn journal_detail_handler(id: web::Path<i32>) -> Result<HttpResponse, 
     Ok(HttpResponse::Ok().body(
         JournalDetailTemplate {
             journal,
-            id: journal_id,
+            id_string: journal_id.to_string(),
         }
         .render()
         .unwrap(),
@@ -83,16 +85,35 @@ pub async fn journal_detail_handler(id: web::Path<i32>) -> Result<HttpResponse, 
 }
 
 #[get("/journal")]
-pub async fn journal_handler(
+pub async fn journal_handler() -> Result<HttpResponse, SubmissionError> {
+    let conn = init_db().map_err(|e| SubmissionError::DatabaseError(e.to_string()))?;
+    let repository = JournalRepository::new(conn);
+    let journals = repository.get_all_journals(12, 0)?;
+
+    Ok(HttpResponse::Ok().body(JournalTemplate { journals }.render().unwrap()))
+}
+
+#[get("/api/journals")]
+pub async fn journal_api_handler(
     query: web::Query<JournalQueryParams>,
 ) -> Result<HttpResponse, SubmissionError> {
     let page = query.page.unwrap_or(1);
     let limit = query.limit.unwrap_or(12);
     let offset = (page - 1) * limit;
+    let category = query.category.as_deref().unwrap_or("all");
 
     let conn = init_db().map_err(|e| SubmissionError::DatabaseError(e.to_string()))?;
     let repository = JournalRepository::new(conn);
-    let journals = repository.get_all_journals(limit, offset)?;
 
-    Ok(HttpResponse::Ok().body(JournalTemplate { journals }.render().unwrap()))
+    let journals = match category {
+        "latest" => repository.get_latest_journals(limit)?,
+        "current" => repository.get_current_edition(limit)?,
+        "past" => repository.get_past_issues(limit, offset)?,
+        _ => repository.get_all_journals(limit, offset)?,
+    };
+
+    Ok(HttpResponse::Ok().json(json!({
+        "journals": journals,
+        "hasMore": journals.len() == limit as usize
+    })))
 }
