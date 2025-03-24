@@ -1,10 +1,15 @@
+use crate::utils::ensure_upload_dir;
 use actix_files as fs;
 use actix_web::{App, HttpServer};
 use env_logger::Env;
-use log::info;
+use log::{info, warn};
 
 mod config;
+mod db;
+mod errors;
+mod models;
 mod routes;
+mod utils;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -14,6 +19,11 @@ async fn main() -> std::io::Result<()> {
 
     let host = "0.0.0.0";
     let port = 8080;
+
+    // Ensure uploads directory exists at startup
+    if let Err(e) = ensure_upload_dir() {
+        warn!("Failed to create uploads directory: {}", e);
+    }
 
     info!("Starting server on http://{}:{}...", host, port); // Log a message
     HttpServer::new(|| {
@@ -36,6 +46,7 @@ async fn main() -> std::io::Result<()> {
             .service(routes::submissions::submit_paper_handler)
             .service(routes::editorial::editorial_board_handler)
             .service(routes::journals::journal_handler)
+            .service(routes::admin::process_upload)
     })
     .bind((host, port))?
     .run()

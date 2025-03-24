@@ -1,20 +1,27 @@
 use actix_web::{error::ResponseError, HttpResponse};
-use derive_more::Display;
 use serde::Serialize;
+use std::fmt;
 
-#[derive(Debug, Display)]
+#[derive(Debug)]
 pub enum SubmissionError {
-    #[display(fmt = "Database error: {}", _0)]
     DatabaseError(String),
-
-    #[display(fmt = "Storage error: {}", _0)]
     StorageError(String),
-
-    #[display(fmt = "Validation error: {}", _0)]
     ValidationError(String),
-
-    #[display(fmt = "File processing error: {}", _0)]
     FileProcessingError(String),
+}
+
+// Implement Display manually instead of using derive
+impl fmt::Display for SubmissionError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            SubmissionError::DatabaseError(msg) => write!(f, "Database error: {}", msg),
+            SubmissionError::StorageError(msg) => write!(f, "Storage error: {}", msg),
+            SubmissionError::ValidationError(msg) => write!(f, "Validation error: {}", msg),
+            SubmissionError::FileProcessingError(msg) => {
+                write!(f, "File processing error: {}", msg)
+            }
+        }
+    }
 }
 
 #[derive(Serialize)]
@@ -22,6 +29,9 @@ pub struct ErrorResponse {
     pub error: String,
     pub message: String,
 }
+
+// Implement std::error::Error
+impl std::error::Error for SubmissionError {}
 
 impl ResponseError for SubmissionError {
     fn error_response(&self) -> HttpResponse {
@@ -50,6 +60,15 @@ impl ResponseError for SubmissionError {
                     message: msg.to_string(),
                 })
             }
+        }
+    }
+
+    fn status_code(&self) -> actix_web::http::StatusCode {
+        match self {
+            SubmissionError::ValidationError(_) => actix_web::http::StatusCode::BAD_REQUEST,
+            SubmissionError::DatabaseError(_) => actix_web::http::StatusCode::INTERNAL_SERVER_ERROR,
+            SubmissionError::StorageError(_) => actix_web::http::StatusCode::INTERNAL_SERVER_ERROR,
+            SubmissionError::FileProcessingError(_) => actix_web::http::StatusCode::BAD_REQUEST,
         }
     }
 }

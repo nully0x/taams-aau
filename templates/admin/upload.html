@@ -1,4 +1,110 @@
 {% extends "layouts/base.html" %} {% block content %}
-<h1>Admin Upload</h1>
-<p>This is a placeholder for the journal Upload page.</p>
+<div class="container" style="padding: 20px">
+    <h1>Upload Journal</h1>
+    <p>Use this form to upload a new journal article to the database.</p>
+
+    <form
+        action="/admin/upload"
+        method="post"
+        enctype="multipart/form-data"
+        style="margin-top: 20px"
+        id="uploadForm"
+    >
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" required />
+        </div>
+
+        <div class="form-group">
+            <label for="authors">Authors (comma separated)</label>
+            <input type="text" id="authors" name="authors" required />
+        </div>
+
+        <div class="form-group flex">
+            <div class="form-group">
+                <label for="volume">Volume</label>
+                <input type="text" id="volume" name="volume" required />
+            </div>
+            <div class="form-group">
+                <label for="pages">Pages</label>
+                <input type="text" id="pages" name="pages" required />
+            </div>
+            <div class="form-group">
+                <label for="publication_date">Publication Date</label>
+                <input
+                    type="date"
+                    id="publication_date"
+                    name="publication_date"
+                    required
+                />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="abstract_text">Abstract</label>
+            <textarea
+                id="abstract_text"
+                name="abstract_text"
+                rows="5"
+                required
+            ></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="keywords">Keywords (comma separated)</label>
+            <input type="text" id="keywords" name="keywords" required />
+        </div>
+
+        <div class="form-group">
+            <label for="pdf">PDF File</label>
+            <div class="upload-file">
+                <input type="file" id="pdf" name="pdf" accept=".pdf" required />
+            </div>
+            <p>Only PDF files are accepted</p>
+        </div>
+
+        <button class="submit-btn" type="submit">Upload Journal</button>
+    </form>
+
+    <div id="uploadStatus" style="margin-top: 20px; display: none">
+        <p class="success" style="color: green"></p>
+        <p class="error" style="color: red"></p>
+    </div>
+</div>
+
+<script>
+    document
+        .getElementById("uploadForm")
+        .addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+            const statusDiv = document.getElementById("uploadStatus");
+            const successMsg = statusDiv.querySelector(".success");
+            const errorMsg = statusDiv.querySelector(".error");
+
+            try {
+                const response = await fetch("/admin/upload", {
+                    method: "POST",
+                    body: formData,
+                });
+
+                const result = await response.json();
+
+                statusDiv.style.display = "block";
+                if (response.ok) {
+                    successMsg.textContent = result.message;
+                    errorMsg.textContent = "";
+                    e.target.reset();
+                } else {
+                    successMsg.textContent = "";
+                    errorMsg.textContent = result.message || "Upload failed";
+                }
+            } catch (error) {
+                statusDiv.style.display = "block";
+                successMsg.textContent = "";
+                errorMsg.textContent = "An error occurred during upload";
+            }
+        });
+</script>
 {% endblock %}

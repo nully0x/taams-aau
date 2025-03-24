@@ -1,32 +1,6 @@
+use crate::models::response::ValidationResponse;
+use regex::Regex;
 use serde::{Deserialize, Serialize};
-use validator::Validate;
-
-#[derive(Debug, Serialize, Deserialize, Validate)]
-pub struct Submission {
-    pub id: Option<i32>,
-
-    #[validate(length(min = 1, message = "Name cannot be empty"))]
-    pub full_name: String,
-
-    #[validate(email(message = "Invalid email address"))]
-    pub email: String,
-
-    #[validate(length(
-        min = 10,
-        max = 15,
-        message = "Phone number must be between 10-15 digits"
-    ))]
-    #[validate(regex(path = "PHONE_REGEX", message = "Invalid phone number format"))]
-    pub phone: String,
-
-    #[validate(length(min = 10, message = "Title must be at least 10 characters"))]
-    pub title: String,
-
-    #[validate(length(min = 100, message = "Abstract must be at least 100 characters"))]
-    pub abstract_text: String,
-
-    pub pdf_url: String,
-}
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Submission {
@@ -59,18 +33,53 @@ impl Submission {
         }
     }
 
+    fn is_valid_email(email: &str) -> bool {
+        let email_regex = Regex::new(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$").unwrap();
+        email_regex.is_match(email)
+    }
+
     pub fn validate_submission(&self) -> Result<(), Vec<ValidationResponse>> {
-        if let Err(errors) = self.validate() {
-            let validation_errors = errors
-                .field_errors()
-                .iter()
-                .map(|(field, error_vec)| ValidationResponse {
-                    field: field.to_string(),
-                    message: error_vec[0].message.clone().unwrap_or_default().to_string(),
-                })
-                .collect();
-            return Err(validation_errors);
+        let mut validation_errors = Vec::new();
+
+        if self.full_name.is_empty() {
+            validation_errors.push(ValidationResponse {
+                field: "full_name".to_string(),
+                message: "Name cannot be empty".to_string(),
+            });
         }
-        Ok(())
+
+        if !Self::is_valid_email(&self.email) {
+            validation_errors.push(ValidationResponse {
+                field: "email".to_string(),
+                message: "Invalid email address".to_string(),
+            });
+        }
+
+        if self.phone.len() < 10 || self.phone.len() > 15 {
+            validation_errors.push(ValidationResponse {
+                field: "phone".to_string(),
+                message: "Phone number must be between 10-15 digits".to_string(),
+            });
+        }
+
+        if self.title.len() < 10 {
+            validation_errors.push(ValidationResponse {
+                field: "title".to_string(),
+                message: "Title must be at least 10 characters".to_string(),
+            });
+        }
+
+        if self.abstract_text.len() < 100 {
+            validation_errors.push(ValidationResponse {
+                field: "abstract_text".to_string(),
+                message: "Abstract must be at least 100 characters".to_string(),
+            });
+        }
+
+        if validation_errors.is_empty() {
+            Ok(())
+        } else {
+            Err(validation_errors)
+        }
     }
 }
