@@ -54,9 +54,13 @@
                         </div>
                         <p>Only PDF files are accepted</p>
                     </div>
-                    <button class="submit-btn" type="submit">
-                        Submit Article
-                    </button>
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <input type="checkbox" id="manuscriptGuide" required />
+                            <p>I have read and understood the <a href="/manuscript-guide" style="font-weight: bold; color: #2A166F; text-decoration: none;">Author's Manuscript Guide</a></p>
+                        </div>
+                        <button class="submit-btn" type="submit">Submit Article</button>
+                    </div>
                 </form>
 
                 <div id="submissionStatus" style="display: none">
