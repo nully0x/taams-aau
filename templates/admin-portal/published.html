@@ -286,9 +286,21 @@
         
         <div class="recent-section">
             <div class="recent-header">
-                <div style="display: flex; align-items: center;">
+                <div style="display: flex; flex-direction: column;">
                     <h2 style="margin-right: 15px; font-size: 18px; color: #333; font-weight: 600;">Submitted articles</h2>
-                    
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <p style="color: #666;">Showing all articles</p>
+                        <div style="display: flex; align-items: center;">
+                            <span style="width: 24px; height: 24px; background-color: #e9ebf0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #4a4a4a; margin-right: 8px;">5</span>
+                            <select style="padding: 4px 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; color: #4a4a4a; background-color: white;">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5" selected>5</option>
+                            </select>
+                        </div>
+                    </div>
                   </div>
                   <div style="position: relative; display: flex; align-items: center;">
                     <input type="text" placeholder="Search for article" style="padding: 8px 35px 8px 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; width: 180px;">
