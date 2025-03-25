@@ -43,8 +43,6 @@ async fn main() -> std::io::Result<()> {
             )
             // Register ALL your routes here:
             .service(routes::landing::landing_handler)
-            .service(routes::journals::current_journals_handler)
-            .service(routes::journals::past_journals_handler)
             .service(routes::journals::journal_detail_handler)
             .service(routes::admin::upload_journal_handler)
             .service(routes::about::about_handler)
