@@ -52,6 +52,7 @@ async fn main() -> std::io::Result<()> {
             .service(routes::admin::process_upload)
             .service(routes::submissions::process_submission)
             .service(routes::journals::journal_api_handler)
+            .service(routes::manuscript::manuscript_guide)
     })
     .bind((host, port))?
     .run()
