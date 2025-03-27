@@ -124,7 +124,7 @@ p.subtitle {
 
 .profile {
     width: 100%;
-    max-width: 300px;
+    max-width: 320px;
     text-align: center;
     background-color: white;
     padding: 20px;
@@ -135,6 +135,7 @@ p.subtitle {
     height: 300px;
     border-radius: 50%;
     object-fit: cover;
+    padding: 10px;
 }
 
 .profile h3 {
