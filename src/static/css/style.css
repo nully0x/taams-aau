@@ -366,7 +366,7 @@ p {
     max-width: 1200px;
     background: white;
     padding: 30px;
-    align-items: start;
+    align-items: center;
 }
 .text-content {
     flex: 1;
