@@ -88,7 +88,7 @@ pub async fn process_submission(mut payload: Multipart) -> Result<HttpResponse, 
             "pdf" => {
                 let uuid = Uuid::new_v4();
                 let file_name = format!("{}.pdf", uuid.to_string());
-                let file_path = format!("uploads/{}", file_name);
+                let file_path = format!("./data/uploads/{}", file_name);
 
                 // Create the file
                 let mut f = std::fs::File::create(&file_path)
@@ -138,7 +138,7 @@ pub async fn process_submission(mut payload: Multipart) -> Result<HttpResponse, 
         phone,
         title,
         abstract_text,
-        format!("/uploads/{}", pdf_url),
+        format!("./data/uploads/{}", pdf_url),
     );
 
     // Validate submission
