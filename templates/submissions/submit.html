@@ -4,7 +4,7 @@
 <section class="submit-article">
     <div class="submit-container">
         <h1>Submit an Article</h1>
-        <p>
+        <p class="subtitle">
             You may contribute to Akungba Journal of Economics Thought (AJET) by
             writing and submitting articles for publication.
         </p>
@@ -12,6 +12,7 @@
             <img
                 src="/static/assets/Image.png"
                 alt="A person writing an article"
+                class="submit-image"
             />
             <div class="form-container">
                 <form id="submissionForm" enctype="multipart/form-data">
@@ -19,7 +20,7 @@
                         <label>Full name</label>
                         <input type="text" name="full_name" required />
                     </div>
-                    <div class="form-group flex">
+                    <div class="form-row">
                         <div class="form-group">
                             <label>Email address</label>
                             <input type="email" name="email" required />
@@ -38,7 +39,6 @@
                         <textarea
                             name="abstract_text"
                             rows="4"
-                            style="resize: none"
                             required
                         ></textarea>
                     </div>
@@ -52,25 +52,28 @@
                                 required
                             />
                         </div>
-                        <p>Only PDF files are accepted</p>
+                        <p class="file-note">Only PDF files are accepted</p>
                     </div>
-                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
-                        <div style="display: flex; align-items: center; gap: 10px;">
+                    <div class="form-footer">
+                        <div class="checkbox-group">
                             <input type="checkbox" id="manuscriptGuide" required />
-                            <p>I have read and understood the <a href="/manuscript" style="font-weight: bold; color: #2A166F; text-decoration: none;">Author's Manuscript Guide</a></p>
+                            <label for="manuscriptGuide">
+                                I have read and understood the <a href="/manuscript" class="guide-link">Author's Manuscript Guide</a>
+                            </label>
                         </div>
                         <button class="submit-btn" type="submit">Submit Article</button>
                     </div>
                 </form>
 
-                <div id="submissionStatus" style="display: none">
-                    <p class="success" style="color: green"></p>
-                    <p class="error" style="color: red"></p>
+                <div id="submissionStatus" class="status-message">
+                    <p class="success"></p>
+                    <p class="error"></p>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
 
 <script>
     document
