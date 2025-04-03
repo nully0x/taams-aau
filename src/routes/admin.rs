@@ -109,7 +109,7 @@ pub async fn process_upload(mut payload: Multipart) -> Result<HttpResponse, Subm
             "pdf" => {
                 let uuid = Uuid::new_v4();
                 let file_name = format!("{}.pdf", uuid.to_string());
-                let file_path = format!("./data/uploads/{}", file_name);
+                let file_path = format!("data/uploads/{}", file_name);
 
                 // Create the file
                 let mut f = std::fs::File::create(&file_path)
@@ -175,7 +175,7 @@ pub async fn process_upload(mut payload: Multipart) -> Result<HttpResponse, Subm
         volume,
         pages,
         publication_datetime,
-        format!("./data/uploads/{}", pdf_url),
+        format!("data/uploads/{}", pdf_url),
     );
 
     // Save to database

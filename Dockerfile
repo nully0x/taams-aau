@@ -4,6 +4,8 @@ FROM rust:1.81.0 AS builder
 WORKDIR /usr/src/aau-ajet
 COPY . .
 
+RUN mkdir -p data/uploads
+
 # build dependencies
 RUN cargo build --release
 
@@ -19,6 +21,9 @@ RUN apt-get update && apt-get install -y \
 # Create app directory structure
 WORKDIR /usr/src/aau-ajet
 RUN mkdir -p src/static
+
+RUN mkdir -p data/uploads
+
 
 # Copy the build artifact from the builder stage
 COPY --from=builder /usr/src/aau-ajet/target/release/journal-site /usr/src/aau-ajet/journal-site
