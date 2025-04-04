@@ -43,4 +43,8 @@ impl Journal {
     pub fn id_string(&self) -> String {
         self.id.map_or_else(|| "".to_string(), |id| id.to_string())
     }
+
+    pub fn pdf_url(&self) -> String {
+        format!("data/uploads/{}", self.pdf_url)
+    }
 }

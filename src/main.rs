@@ -37,7 +37,7 @@ async fn main() -> std::io::Result<()> {
                     .disable_content_disposition(),
             )
             .service(
-                fs::Files::new("/uploads", "./uploads")
+                fs::Files::new("/data/uploads", "./data/uploads")
                     .show_files_listing()
                     .use_last_modified(true),
             )
