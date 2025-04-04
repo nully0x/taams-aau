@@ -3,19 +3,11 @@
 
 <div class="main-content">
     <div class="text-content">
-        <!-- <h2>Welcome to Adekunle Ajasin University</h2> -->
-        <!-- <img src="/static/assets/aaua-logo.png" alt="Student in library" style="width: 100px; height: 100px; text-align: left;" /> -->
-        <div class="logo-container" style="margin-bottom: 10px">
+        <div class="logo-container">
             <img
                 src="/static/assets/aaua-logo.png"
                 alt="AAUA Logo"
-                style="
-                    width: 200px;
-                    height: 200px;
-                    object-fit: contain;
-                    display: block;
-                    margin-bottom: 0.3rem;
-                "
+                class="logo-img"
             />
         </div>
         <h3>AJET Journal</h3>
@@ -43,25 +35,15 @@
             readers, to submit their manuscripts.
         </p>
 
-        <a
-            href="/submit"
-            class="btn"
-            style="
-                background-color: white;
-                border: 1px solid #0066cc;
-                color: #0066cc;
-            "
-            >Submit An Article</a
-        >
+        <a href="/submit" class="btn">Submit An Article</a>
     </div>
     <div class="image-content">
-        <img src="/static/assets/ajet-img.png" alt="Student in library" />
+        <img src="/static/assets/ajet-img.png" alt="Student in library" class="content-img" />
         <div class="blue-box"></div>
     </div>
 </div>
 
 <div class="stats-division">
-    <!-- <h2>Tracking Our Progress: The Numbers Speak For Themselves</h2>  -->
     <div class="stats">
         <div class="stat-item">
             <div class="stat-number">400+</div>
@@ -107,4 +89,5 @@
         {% endfor %}
     </div>
 </section>
+
 {% endblock %}

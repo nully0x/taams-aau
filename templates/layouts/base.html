@@ -12,25 +12,29 @@
         <header class="hero">
             <!-- Top Navigation -->
             <nav class="top-nav">
-                <div style="display: flex; align-items: center">
+                <div class="nav-logo">
                     <div class="circle"></div>
                     <div class="logo">
-                        <a
-                            href="/"
-                            style="text-decoration: none; color: inherit"
-                            >AJET Journal</a
-                        >
+                        <a href="/" style="text-decoration: none; color: inherit">AJET Journal</a>
                     </div>
                 </div>
+                
+                <!-- Hamburger Menu Button (visible on mobile) -->
+                <div class="hamburger-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                
+                <!-- Navigation Items (will be toggled on mobile) -->
                 <div class="nav-items">
                     <a href="/journal">Articles</a>
                     <a href="/submit">Submit an Article</a>
                     <a href="/editorial-board">Editorial Board</a>
                     <a href="/about">About</a>
-                    <!-- <a href="/manuscript">About</a>b -->
                 </div>
             </nav>
-
+        
             {% block hero %}{% endblock %}
         </header>
 
