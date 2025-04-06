@@ -800,7 +800,7 @@ footer {
 }
 
 .pub-vol {
-  font-size: 12px;
+  font-size: 14px;
   color: #666;
   margin-bottom: 10px;
 }
@@ -823,12 +823,12 @@ footer {
 }
 
 .pub-abstract p {
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .pub-meta {
   margin-top: 15px;
-  font-size: 12px;
+  font-size: 14px;
   color: #666;
   display: flex;
   align-items: center;
@@ -1107,7 +1107,7 @@ footer {
 
 .journal-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
 }
 
 .journal-meta {
@@ -1338,7 +1338,7 @@ article-card-journal,
 .article-card-journal:hover,
 .pub-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
 }
 
 .download-btn {
@@ -1433,7 +1433,7 @@ article-card-journal,
 }
 
 .ajet-paragraph {
-  margin-bottom: 12px;
+  margin-bottom: 14px;
   text-align: justify;
 }
 
