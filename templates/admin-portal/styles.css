@@ -38,7 +38,7 @@ body {
 .nav-link {
     color: #101828;
     text-decoration: none;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
 }
 
@@ -85,7 +85,7 @@ body {
 }
 
 .user-name {
-    font-size: 16px;
+    font-size: 14px;
     color: #101828;
     font-weight: 600;
 }
@@ -140,7 +140,7 @@ body {
 }
 
 .sub-name {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     color: #383b61;
     margin-right: 10px;
@@ -179,7 +179,7 @@ body {
 .view-all {
     color: #2A166F;
     text-decoration: none;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
 }
 
@@ -194,13 +194,13 @@ body {
     padding: 0.75rem 1rem;
     color: #374151;
     font-weight: 500;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .articles-table td {
     padding: 0.75rem 1rem;
     border-top: 1px solid #eee;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
     color: 400;
 }
@@ -215,6 +215,6 @@ body {
 }
 
 .download-icon {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
 }
