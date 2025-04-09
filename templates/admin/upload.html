@@ -171,7 +171,6 @@
     </div>
     {% endblock %} {% block scripts %}
     <script>
-        // Keep the existing JS for upload status handling
         document
             .getElementById("uploadForm")
             ?.addEventListener("submit", async (e) => {
@@ -221,7 +220,7 @@
                     errorMsg.textContent =
                         "An unexpected error occurred during upload.";
                 } finally {
-                    submitButton.disabled = false; // Re-enable button
+                    submitButton.disabled = false; 
                     submitButton.textContent = "Upload Journal";
                 }
             });
