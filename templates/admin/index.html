@@ -1,0 +1,58 @@
+{% extends "admin/layouts/base.html" %} {% block content %}
+<div class="welcome-section">
+    <div class="welcome-text">
+        <h1>Hello Admin!</h1>
+        <p>Welcome to the AJET Admin Dashboard</p>
+    </div>
+    <a href="/admin/upload" class="upload-btn">Upload/Publish Article</a>
+</div>
+
+<!-- Recent Submissions Section -->
+<div class="recent-section">
+    <div class="recent-header">
+        <h2 class="recent-title">Recent Submissions</h2>
+        <a href="/admin/submissions" class="view-all">View All</a>
+    </div>
+
+    {% if recent_submissions.is_empty() %}
+    <p>No recent submissions found.</p>
+    {% else %}
+    <div style="overflow-x: auto">
+        <table class="articles-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Submitter</th>
+                    <th>Title</th>
+                    <th>Submitted</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sub in recent_submissions %}
+                <tr>
+                    <td>{{ sub.id.unwrap_or(0) }}</td>
+                    <td>{{ sub.full_name }}</td>
+                    <td>{{ sub.title|truncate(50) }}</td>
+                    <td>{{ sub.formatted_date() }}</td>
+                    <td>
+                        <a
+                            href="/admin/submissions/{{ sub.id.unwrap_or(0) }}/download"
+                            class="download-btn"
+                            title="Download PDF"
+                        >
+                            Download
+                            <ion-icon
+                                name="download-outline"
+                                class="download-icon"
+                            ></ion-icon>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

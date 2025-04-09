@@ -1,4 +1,5 @@
 // src/routes/journals.rs
+use actix_session::Session;
 use actix_web::{get, web, HttpResponse, Responder};
 use askama::Template;
 use chrono::{DateTime, Datelike, Utc};
@@ -15,6 +16,7 @@ use crate::models::journals::Journal;
 struct JournalDetailTemplate {
     journal: Journal,
     id_string: String, // Changed from i32 to String
+    is_admin: bool,
 }
 
 #[derive(Template)]
@@ -31,17 +33,27 @@ pub struct JournalQueryParams {
 }
 
 #[get("/journals/{id}")]
-pub async fn journal_detail_handler(id: web::Path<i32>) -> Result<HttpResponse, SubmissionError> {
+pub async fn journal_detail_handler(
+    id: web::Path<i32>,
+    session: Session, // Add session parameter
+) -> Result<HttpResponse, SubmissionError> {
     let journal_id = id.into_inner();
 
     let conn = init_db().map_err(|e| SubmissionError::DatabaseError(e.to_string()))?;
     let repository = JournalRepository::new(conn);
     let journal = repository.get_journal_by_id(journal_id)?;
 
+    // Check if user is admin
+    let is_admin = session
+        .get::<i32>("admin_id")
+        .map_err(|e| SubmissionError::DatabaseError(e.to_string()))?
+        .is_some();
+
     Ok(HttpResponse::Ok().body(
         JournalDetailTemplate {
             journal,
             id_string: journal_id.to_string(),
+            is_admin, // Pass admin status to template
         }
         .render()
         .unwrap(),

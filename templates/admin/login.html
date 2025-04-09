@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Akungba Journal Login</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                display: flex;
+                height: 100vh;
+            }
+
+            .left-panel {
+                width: 50%;
+                height: 100%;
+                position: relative;
+                color: white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                /* Center the text content */
+                padding: 2rem;
+                overflow: hidden;
+                /* Ensure no content overflows */
+            }
+
+            .background-image {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-image: url("./assets/admin-img.png");
+                background-size: cover;
+                background-position: center;
+                z-index: 1;
+            }
+
+            .purple-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(75, 15, 130, 0.6);
+                z-index: 2;
+            }
+
+            .journal-text {
+                position: relative;
+                z-index: 3;
+                text-align: left;
+            }
+
+            .journal-text h1 {
+                font-size: 40px;
+                font-weight: 400;
+                line-height: 45px;
+                margin-bottom: 1rem;
+                color: white;
+            }
+
+            .journal-text p {
+                font-size: 1rem;
+                line-height: 1.5;
+                color: white;
+            }
+
+            .right-panel {
+                width: 50%;
+                height: 100%;
+                padding: 2rem;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            .login-container {
+                width: 60%;
+                margin: 0 auto;
+            }
+
+            .login-header {
+                margin-bottom: 1rem;
+            }
+
+            .login-header h2 {
+                font-size: 40px;
+                margin-bottom: 0.5rem;
+                font-weight: bold;
+            }
+
+            .login-header p {
+                color: #101828;
+                font-size: 14px;
+            }
+
+            .form-group {
+                margin-bottom: 1.5rem;
+            }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 0.5rem;
+                font-size: 14px;
+                color: #374151;
+            }
+
+            .form-group input {
+                width: 100%;
+                padding: 0.75rem;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                font-size: 0.9rem;
+            }
+
+            .password-field {
+                position: relative;
+            }
+
+            .password-toggle {
+                position: absolute;
+                right: 10px;
+                top: 10px;
+                cursor: pointer;
+                color: #666;
+            }
+
+            .forgot-password {
+                text-align: right;
+                font-size: 18px;
+                margin-bottom: 1.5rem;
+            }
+
+            .forgot-password a {
+                color: #2a166f;
+                text-decoration: none;
+                font-weight: bold;
+            }
+
+            .login-button {
+                width: 100%;
+                padding: 0.75rem;
+                background-color: #2a166f;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                font-size: 18px;
+                cursor: pointer;
+            }
+
+            .logo-container {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                display: flex;
+                align-items: center;
+                z-index: 3;
+            }
+
+            .logo {
+                width: 30px;
+                height: 30px;
+                background-color: white;
+                border-radius: 50%;
+                margin-right: 10px;
+            }
+
+            .logo-text {
+                color: white;
+                font-size: 14px;
+                font-weight: 600px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="left-panel">
+            <div class="logo-container">
+                <div class="logo"></div>
+                <span class="logo-text">AJ Journal</span>
+            </div>
+            <div class="background-image"></div>
+            <div class="purple-overlay"></div>
+            <div class="journal-text">
+                <h1>
+                    Akungba Journal of Economics Thought, a premier academic
+                    publication dedicated to advancing economic discourse and
+                    research.
+                </h1>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="login-container">
+                <div class="login-header">
+                    <h2>Log in</h2>
+                    <p>
+                        Welcome back, please enter your details to log in to
+                        your account.
+                    </p>
+                </div>
+
+                <!-- Display error message if it exists -->
+                {% if let Some(err) = error %}
+                <div
+                    style="
+                        color: red;
+                        margin-bottom: 1rem;
+                        padding: 10px;
+                        border: 1px solid red;
+                        border-radius: 4px;
+                        background-color: #fdd;
+                    "
+                >
+                    {{ err }}
+                </div>
+                {% endif %}
+
+                <form method="POST" action="/admin/login">
+                    <div class="form-group">
+                        <label for="email">Email address</label>
+                        <!-- Add name attributes -->
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Enter your email"
+                            required
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="password-field">
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Enter your password"
+                                required
+                            />
+                            <span class="password-toggle"></span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="login-button">Login</button>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,6 +1,5 @@
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
-use std::fmt;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Journal {
@@ -41,7 +40,7 @@ impl Journal {
         }
     }
     pub fn id_string(&self) -> String {
-        self.id.map_or_else(|| "".to_string(), |id| id.to_string())
+        self.id.map_or_else(String::new, |id| id.to_string())
     }
 
     pub fn pdf_url(&self) -> String {

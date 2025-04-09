@@ -1,5 +1,5 @@
 use crate::models::response::ValidationResponse;
-use actix_web::{error::ResponseError, HttpResponse};
+use actix_web::{error::ResponseError, http::StatusCode, HttpResponse};
 use serde::Serialize;
 use std::fmt;
 
@@ -9,6 +9,10 @@ pub enum SubmissionError {
     StorageError(String),
     ValidationError(String),
     FileProcessingError(String),
+    NotFound(String),
+    Unauthorized(String),
+    HashingError(String),
+    InternalError(String),
 }
 
 // Implement Display manually instead of using derive
@@ -20,6 +24,18 @@ impl fmt::Display for SubmissionError {
             SubmissionError::ValidationError(msg) => write!(f, "Validation error: {}", msg),
             SubmissionError::FileProcessingError(msg) => {
                 write!(f, "File processing error: {}", msg)
+            }
+            SubmissionError::NotFound(msg) => {
+                write!(f, "Not found error: {}", msg)
+            }
+            SubmissionError::Unauthorized(msg) => {
+                write!(f, "Unauthorized error: {}", msg)
+            }
+            SubmissionError::HashingError(msg) => {
+                write!(f, "Hashing error: {}", msg)
+            }
+            SubmissionError::InternalError(msg) => {
+                write!(f, "Internal error: {}", msg)
             }
         }
     }
@@ -74,6 +90,28 @@ impl ResponseError for SubmissionError {
                     message: msg.to_string(),
                 })
             }
+            SubmissionError::NotFound(msg) => HttpResponse::NotFound().json(ErrorResponse {
+                error: "NOT_FOUND_ERROR".to_string(),
+                message: msg.to_string(),
+            }),
+            SubmissionError::Unauthorized(msg) => {
+                HttpResponse::Unauthorized().json(ErrorResponse {
+                    error: "UNAUTHORIZED_ERROR".to_string(),
+                    message: msg.to_string(),
+                })
+            }
+            SubmissionError::HashingError(msg) => {
+                HttpResponse::InternalServerError().json(ErrorResponse {
+                    error: "HASHING_ERROR".to_string(),
+                    message: msg.to_string(),
+                })
+            }
+            SubmissionError::InternalError(msg) => {
+                HttpResponse::InternalServerError().json(ErrorResponse {
+                    error: "INTERNAL_ERROR".to_string(),
+                    message: msg.to_string(),
+                })
+            }
         }
     }
 
@@ -83,6 +121,10 @@ impl ResponseError for SubmissionError {
             SubmissionError::DatabaseError(_) => actix_web::http::StatusCode::INTERNAL_SERVER_ERROR,
             SubmissionError::StorageError(_) => actix_web::http::StatusCode::INTERNAL_SERVER_ERROR,
             SubmissionError::FileProcessingError(_) => actix_web::http::StatusCode::BAD_REQUEST,
+            SubmissionError::NotFound(_) => actix_web::http::StatusCode::NOT_FOUND,
+            SubmissionError::Unauthorized(_) => actix_web::http::StatusCode::UNAUTHORIZED,
+            SubmissionError::HashingError(_) => actix_web::http::StatusCode::INTERNAL_SERVER_ERROR,
+            SubmissionError::InternalError(_) => actix_web::http::StatusCode::INTERNAL_SERVER_ERROR,
         }
     }
 }

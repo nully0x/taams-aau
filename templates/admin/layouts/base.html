@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!-- <link rel="stylesheet" href="/static/css/style.css" /> -->
+        <link rel="stylesheet" href="/static/css/admin.css" />
+        <!-- Use the title block -->
+        <title>AJET Admin - {% block title %}Dashboard{% endblock %}</title>
+    </head>
+    <body>
+        <div class="navbar">
+            <div class="nav-left">
+                <img
+                    src="/static/assets/aaua-logo.png"
+                    alt="AAUA Logo"
+                    class="nav-circle"
+                />
+                <div class="nav-links">
+                     <!-- Check current_page variable -->
+                    <a href="/admin/dashboard" class="nav-link {% if current_page == "dashboard" %}active{% endif %}">Dashboard</a>
+                    <a href="/admin/upload" class="nav-link {% if current_page == "upload" %}active{% endif %}">Upload Article</a>
+                    <a href="/admin/submissions" class="nav-link {% if current_page == "submissions" %}active{% endif %}">Submissions</a>
+                </div>
+            </div>
+            <div class="nav-right">
+                <form id="logout-form" action="/admin/logout" method="POST" style="display: inline;">
+                    <button type="submit" style="background: none; border: none; cursor: pointer; padding: 0;">
+                        <div class="nav-icon" title="Logout">
+                             <ion-icon name="log-out-outline" style="width: 24px; height: 24px; vertical-align: middle;"></ion-icon>
+                        </div>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
+
+        {% block scripts %}{% endblock %}
+    </body>
+</html>

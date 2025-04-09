@@ -1,0 +1,59 @@
+{% extends "admin/layouts/base.html" %} {% block title %}Submissions{% endblock
+%} {% block content %}
+<div class="recent-section">
+    {# Reuse existing class #}
+    <div class="recent-header">
+        <h2 class="recent-title">Submitted Articles</h2>
+        {# Add search/filter controls here if needed later #}
+    </div>
+
+    {% if submissions.is_empty() %}
+    <p>No submissions found.</p>
+    {% else %}
+    <div style="overflow-x: auto">
+        {# Make table responsive #}
+        <table class="articles-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Submitter</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Title</th>
+                    <th>Abstract</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sub in submissions %}
+                <tr>
+                    <td>{{ sub.id.unwrap_or(0) }}</td>
+                    <td>{{ sub.full_name }}</td>
+                    <td>{{ sub.email }}</td>
+                    <td>{{ sub.phone }}</td>
+                    <td>{{ sub.title }}</td>
+                    <td>{{ sub.abstract_text|truncate(100) }}</td>
+                    {# Truncate abstract #}
+                    <td>
+                        {# Link to the new download route #}
+                        <a
+                            href="/admin/submissions/{{ sub.id.unwrap_or(0) }}/download"
+                            class="download-btn"
+                            title="Download PDF"
+                        >
+                            Download
+                            <ion-icon
+                                name="download-outline"
+                                class="download-icon"
+                            ></ion-icon>
+                        </a>
+                        {# Add delete button here if needed later #}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %} {# Add pagination controls here if needed later #}
+</div>
+{% endblock %}

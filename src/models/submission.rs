@@ -1,6 +1,8 @@
 use crate::models::response::ValidationResponse;
+use chrono::{DateTime, Utc};
 use regex::Regex;
 use serde::{Deserialize, Serialize};
+use std::path::Path;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Submission {
@@ -11,6 +13,7 @@ pub struct Submission {
     pub title: String,
     pub abstract_text: String,
     pub pdf_url: String,
+    pub created_at: Option<DateTime<Utc>>,
 }
 
 impl Submission {
@@ -21,6 +24,7 @@ impl Submission {
         title: String,
         abstract_text: String,
         pdf_url: String,
+        created_at: Option<DateTime<Utc>>,
     ) -> Self {
         Self {
             id: None,
@@ -30,6 +34,7 @@ impl Submission {
             title,
             abstract_text,
             pdf_url,
+            created_at,
         }
     }
 
@@ -81,5 +86,18 @@ impl Submission {
         } else {
             Err(validation_errors)
         }
+    }
+
+    pub fn pdf_filename(&self) -> Option<String> {
+        Path::new(&self.pdf_url)
+            .file_name()
+            .and_then(|os_str| os_str.to_str())
+            .map(|s| s.to_string())
+    }
+
+    pub fn formatted_date(&self) -> String {
+        self.created_at
+            .map(|dt| dt.format("%Y-%m-%d").to_string())
+            .unwrap_or_else(|| "N/A".to_string())
     }
 }

@@ -28,6 +28,7 @@ pub async fn process_submission(mut payload: Multipart) -> Result<HttpResponse, 
     let mut title = None;
     let mut abstract_text = None;
     let mut pdf_filename = None;
+    let mut created_at = None;
 
     // Process the multipart form
     while let Ok(Some(mut field)) = payload.try_next().await {
@@ -139,6 +140,7 @@ pub async fn process_submission(mut payload: Multipart) -> Result<HttpResponse, 
         title,
         abstract_text,
         format!("./data/uploads/{}", pdf_url),
+        created_at,
     );
 
     // Validate submission

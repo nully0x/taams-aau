@@ -21,5 +21,51 @@
     <a href="/{{journal.pdf_url}}" class="download-btn" target="_blank" download
         >Download Full Article</a
     >
+
+    <!-- Optional: Add a delete button here (requires JS) -->
+    {% if is_admin %}
+    <button
+        onclick="deleteJournal('{{ id_string }}')"
+        style="
+            background-color: red;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        "
+    >
+        Delete Article
+    </button>
+    {% endif %}
+    <script>
+        async function deleteJournal(journalId) {
+            if (
+                !confirm(
+                    `Are you sure you want to delete journal ${journalId}? This cannot be undone.`,
+                )
+            ) {
+                return;
+            }
+            try {
+                const response = await fetch(`/admin/journals/${journalId}`, {
+                    method: "DELETE",
+                });
+                const result = await response.json();
+                if (response.ok && result.success) {
+                    alert(result.message);
+                    window.location.href = "/journal"; // Redirect after deletion
+                } else {
+                    alert(
+                        `Error: ${result.message || "Failed to delete journal"}`,
+                    );
+                }
+            } catch (error) {
+                console.error("Deletion error:", error);
+                alert("An error occurred while trying to delete the journal.");
+            }
+        }
+    </script>
 </div>
 {% endblock %}

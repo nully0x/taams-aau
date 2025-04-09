@@ -33,5 +33,15 @@ pub fn init_db() -> Result<Connection, rusqlite::Error> {
         [],
     )?;
 
+    conn.execute(
+        "CREATE TABLE IF NOT EXISTS admins (
+               id            INTEGER PRIMARY KEY AUTOINCREMENT,
+               email         TEXT NOT NULL UNIQUE,
+               password_hash TEXT NOT NULL,
+               created_at    DATETIME DEFAULT CURRENT_TIMESTAMP
+           )",
+        [],
+    )?;
+
     Ok(conn)
 }
