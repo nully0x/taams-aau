@@ -27,7 +27,7 @@ body {
     margin: 20px auto;
     background-color: white;
     border-radius: 40px;
-    max-width: 950px;
+    max-width: 1000px;
     width: 90%;
     color: #1e73be;
     position: relative;
@@ -38,17 +38,25 @@ body {
     align-items: center;
 }
 
-.circle {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    /* background-color: #0066cc; */
-    margin-right: 15px;
+.nav-logo-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
 }
 
-.logo {
+.nav-logo-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 15px;
+    object-fit: contain;
+}
+
+.nav-logo-text {
     font-size: 24px;
     font-weight: bold;
+    white-space: nowrap;
 }
 
 .nav-items {
@@ -288,21 +296,28 @@ footer {
 .footer-logo {
     display: flex;
     align-items: center;
-    margin-bottom: 30px;
 }
 
-.footer-logo-circle {
-    width: 50px;
-    height: 50px;
+.footer-logo-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+}
+
+.footer-logo-image {
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    /* background-color: white; */
     margin-right: 15px;
-    /* padding: 10px; */
+    object-fit: contain;
 }
 
 .footer-logo-text {
-    font-size: 20px;
+    font-size: 24px;
     font-weight: bold;
+    white-space: nowrap;
+    color: #ffffff;
 }
 
 .footer-links {
