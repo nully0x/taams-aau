@@ -935,8 +935,25 @@ footer {
     }
 }
 
+@media (min-width: 768px) {
+    .pub-grid {
+        grid-template-columns: repeat(2, 1fr); /* Changed from 3 to 2 */
+        gap: 1.5rem;
+    }
+}
+
+@media (min-width: 1440px) {
+    .pub-grid {
+        grid-template-columns: repeat(2, 1fr); /* Changed from 3 to 2 */
+    }
+}
+
 /* Desktop and larger screens */
 @media (min-width: 992px) {
+    .pub-grid {
+        grid-template-columns: repeat(2, 1fr); 
+    }
+
     .pub-card {
         flex: 0 0 calc(33.333% - 20px);
     }
