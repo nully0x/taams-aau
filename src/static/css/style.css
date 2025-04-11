@@ -244,7 +244,7 @@ p.subtitle {
     }
 
     .grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         gap: 30px;
     }
 
@@ -1126,7 +1126,8 @@ footer {
 
 .journal-grid {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    /* grid-template-columns: 1fr; */
     gap: 1rem;
 }
 
@@ -1294,7 +1295,7 @@ footer {
     }
 
     .journal-grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         gap: 1.5rem;
     }
 
@@ -1306,7 +1307,7 @@ footer {
 /* ===== LARGE DESKTOP STYLES (1440px and up) ===== */
 @media (min-width: 1440px) {
     .journal-grid {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 /* journal container */
