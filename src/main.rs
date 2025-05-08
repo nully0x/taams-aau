@@ -84,7 +84,7 @@ async fn main() -> std::io::Result<()> {
                 SessionMiddleware::builder(CookieSessionStore::default(), secret_key) // Use the cloned key
                     .cookie_secure(false) // Set to true if using HTTPS
                     .cookie_path("/".to_string())
-                    .cookie_name("ajet-session".to_string())
+                    .cookie_name("taams-session".to_string())
                     .cookie_http_only(true)
                     .cookie_same_site(actix_web::cookie::SameSite::Lax)
                     .build(),
