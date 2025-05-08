@@ -3,8 +3,10 @@ use actix_session::Session;
 use actix_web::{get, web, HttpResponse, Responder};
 use askama::Template;
 use chrono::{DateTime, Datelike, Utc};
+use regex::Regex;
 use serde::Deserialize;
 use serde_json::json;
+use std::collections::BTreeMap;
 
 use crate::db::journal_repository::JournalRepository;
 use crate::db::schema::init_db;
@@ -23,6 +25,8 @@ struct JournalDetailTemplate {
 #[template(path = "journals/journal.html")]
 struct JournalTemplate {
     journals: Vec<Journal>,
+    archives: BTreeMap<i32, BTreeMap<i32, Vec<Journal>>>, // Grouped archives
+    all_journals_json: String,
 }
 
 #[derive(Deserialize)]
@@ -92,4 +96,33 @@ pub async fn journal_api_handler(
         "journals": journals,
         "hasMore": journals.len() == limit as usize
     })))
+}
+
+// Helper function to parse volume string
+// Returns Option<(volume_number, issue_number)>
+fn parse_volume_issue(volume_str: &str) -> Option<(i32, i32)> {
+    // Use lazy_static! or once_cell for better performance if called often,
+    // but simple Regex::new is fine here. Case-insensitive matching.
+    let re = Regex::new(r"(?i)Vol\.\s*(\d+)\s*No\.\s*(\d+)").unwrap();
+    if let Some(caps) = re.captures(volume_str) {
+        // Try to parse captured groups as i32
+        let vol_res = caps.get(1).and_then(|m| m.as_str().parse::<i32>().ok());
+        let iss_res = caps.get(2).and_then(|m| m.as_str().parse::<i32>().ok());
+
+        if let (Some(vol), Some(iss)) = (vol_res, iss_res) {
+            Some((vol, iss))
+        } else {
+            log::warn!(
+                "Failed to parse volume/issue numbers from captures in string: {}",
+                volume_str
+            );
+            None // Parsing numbers failed
+        }
+    } else {
+        log::warn!(
+            "Regex did not match expected 'Vol. X No. Y' format in string: {}",
+            volume_str
+        );
+        None // Regex didn't match
+    }
 }

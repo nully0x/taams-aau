@@ -214,4 +214,22 @@ impl JournalRepository {
             }
         }
     }
+
+    // New method to get all journals without pagination for archive grouping
+    pub fn get_all_journals_for_archive(&self) -> Result<Vec<Journal>, SubmissionError> {
+        let mut stmt = self.conn.prepare(
+                   "SELECT id, title, authors, abstract_text, keywords, volume, pages, publication_date, pdf_url, created_at
+                    FROM journals ORDER BY publication_date DESC" // Order by date remains useful
+               ).map_err(|e| SubmissionError::DatabaseError(e.to_string()))?;
+
+        let journal_iter = stmt
+            .query_map([], Self::map_row_to_journal) // No parameters for limit/offset
+            .map_err(|e| SubmissionError::DatabaseError(e.to_string()))?;
+
+        let journals: Result<Vec<Journal>, _> = journal_iter
+            .map(|res| res.map_err(|e| SubmissionError::DatabaseError(e.to_string())))
+            .collect();
+
+        journals
+    }
 }
