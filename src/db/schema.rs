@@ -24,8 +24,8 @@ pub fn init_db() -> Result<Connection, rusqlite::Error> {
             authors TEXT NOT NULL,
             abstract_text TEXT NOT NULL,
             keywords TEXT NOT NULL,
-            volume_number INTEGER NOT NULL,         -- Changed from volume TEXT
-                       issue_number INTEGER NOT NULL,
+            volume_number INTEGER NOT NULL,
+            issue_number INTEGER NOT NULL,
             pages TEXT NOT NULL,
             publication_date DATETIME NOT NULL,
             pdf_url TEXT NOT NULL,
