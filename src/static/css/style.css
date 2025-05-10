@@ -29,7 +29,7 @@ body {
     border-radius: 40px;
     max-width: 1000px;
     width: 90%;
-    color: #1e73be;
+    color: #f19aa0;
     position: relative;
 }
 
@@ -66,7 +66,7 @@ body {
 
 .nav-items a {
     text-decoration: none;
-    color: #1e73be;
+    color: #f19aa0;
     font-size: 16px;
 }
 
@@ -86,7 +86,7 @@ body {
 .hamburger-menu span {
     width: 30px;
     height: 3px;
-    background-color: #1e73be;
+    background-color: #f19aa0;
     display: block;
     border-radius: 2px;
 }
@@ -158,7 +158,7 @@ body {
 
 .btn-filled {
     background-color: white;
-    color: #1e73be;
+    color: #f19aa0;
 }
 .container {
     width: 100%;
@@ -213,7 +213,7 @@ p.subtitle {
     margin: 15px 0 5px;
     font-size: 16px;
     font-weight: bold;
-    color: #1e73be;
+    color: #f19aa0;
 }
 
 .profile p {
@@ -272,7 +272,7 @@ p.subtitle {
 
 /* Footer */
 footer {
-    background-color: #f19aa0;
+    background-color: #493435;
     color: white;
     padding: 50px 20px 20px;
 }
@@ -463,7 +463,7 @@ footer {
     font-weight: 700;
     margin-bottom: 0.8rem;
     text-align: center;
-    color: #2a166f;
+    color: #493435;
 }
 
 .submit-article .subtitle {
@@ -563,14 +563,14 @@ footer {
 }
 
 .guide-link {
-    color: #2a166f;
+    color: #493435;
     font-weight: 600;
     text-decoration: none;
 }
 
 .submit-btn {
     width: 100%;
-    background-color: #2a166f;
+    background-color: #493435;
     color: white;
     padding: 0.85rem;
     border: none;
@@ -673,7 +673,7 @@ footer {
 }
 
 .text-content h2 {
-    color: #1e73be;
+    color: #f19aa0;
     font-size: 24px;
     margin-bottom: 10px;
 }
@@ -752,7 +752,7 @@ footer {
 }
 
 .stat-item {
-    background-color: #fff601;
+    background-color: #86c127;
     padding: 15px;
     width: 100%;
     max-width: 300px;
@@ -794,7 +794,7 @@ footer {
 .view-all {
     font-size: 14px;
     font-weight: bold;
-    color: #1e73be;
+    color: #f19aa0;
     text-decoration: none;
     margin-bottom: 10px;
 }
@@ -825,7 +825,7 @@ footer {
     font-size: 14px;
     margin-bottom: 10px;
     font-weight: bold;
-    color: #1e73be;
+    color: #f19aa0;
 }
 
 .pub-abstract {
@@ -990,9 +990,9 @@ footer {
 }
 
 .page-item.active {
-    background-color: #1e73be;
+    background-color: #f19aa0;
     color: white;
-    border-color: #1e73be;
+    border-color: #f19aa0;
 }
 
 .journal-explorer {
@@ -1033,7 +1033,7 @@ footer {
 .journal-sidebar h2 {
     font-size: 1.3rem;
     font-weight: 600;
-    color: #2a166f;
+    color: #493435;
     margin-bottom: 0.5rem;
 }
 
@@ -1061,7 +1061,7 @@ footer {
 .category-list li.active,
 .category-list li:hover {
     background: #e5f4ff;
-    color: #2a166f;
+    color: #493435;
     font-weight: 500;
 }
 
@@ -1080,7 +1080,7 @@ footer {
 .filter-title {
     display: block;
     font-weight: 500;
-    color: #2a166f;
+    color: #493435;
     margin-bottom: 1rem;
 }
 
@@ -1117,7 +1117,7 @@ footer {
 
 .apply-filter {
     padding: 0.75rem;
-    background: #2a166f;
+    background: #493435;
     color: white;
     border: none;
     border-radius: 0.5rem;
@@ -1164,7 +1164,7 @@ footer {
 }
 
 .journal-title {
-    color: #2a166f;
+    color: #493435;
     font-size: 1.1rem;
     margin: 0.75rem 0;
     line-height: 1.4;
@@ -1194,7 +1194,7 @@ footer {
 }
 
 .journal-abstract strong {
-    color: #2a166f;
+    color: #493435;
 }
 
 .journal-authors {
@@ -1217,7 +1217,7 @@ footer {
     width: 100%;
     padding: 1rem;
     margin: 1.5rem auto;
-    background: #2a166f;
+    background: #493435;
     color: white;
     border: none;
     border-radius: 0.5rem;
@@ -1344,7 +1344,7 @@ footer {
 }
 .breadcrumb a {
     text-decoration: none;
-    color: #1e73be;
+    color: #f19aa0;
 }
 .volume {
     font-size: 14px;
@@ -1358,7 +1358,7 @@ footer {
 .article-title {
     font-size: 20px;
     font-weight: bold;
-    color: #1e73be;
+    color: #f19aa0;
     margin-bottom: 10px;
 }
 .abstract {
@@ -1381,7 +1381,7 @@ footer {
 }
 .download-btn {
     display: inline-block;
-    background-color: #1e73be;
+    background-color: #f19aa0;
     color: white;
     padding: 10px 20px;
     margin-top: 20px;
@@ -1429,7 +1429,7 @@ article-card-journal,
 }
 
 .download-btn:hover {
-    background-color: #1e73be;
+    background-color: #f19aa0;
     text-decoration: none;
 }
 
