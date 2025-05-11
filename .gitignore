@@ -2,4 +2,4 @@
 .env
 uploads
 aau_taams.db
-data
+data/
