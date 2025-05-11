@@ -13,8 +13,8 @@ A web application for managing and publishing academic journals.
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/nully0x/aau-taams.git
-cd aau-taams
+git clone https://github.com/nully0x/taams-aau.git
+cd taams-aau
 ```
 > If you don't want to install rust, cargo or any other dev-dependencies, you can install devbox and it will install them in an isolated environment.
 > This is suitable for Linux and MacOs
