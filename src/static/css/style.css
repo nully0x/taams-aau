@@ -1434,12 +1434,12 @@ article-card-journal,
 }
 
 /* manuscript */
-.TAAMS-container {
+.taams-container {
     max-width: 1200px;
     margin: 0 auto;
 }
 
-.TAAMS-journal-title {
+.taams-journal-title {
     text-align: left;
     font-weight: bold;
     margin-bottom: 10px;
@@ -1447,14 +1447,14 @@ article-card-journal,
     font-weight: 600;
 }
 
-.TAAMS-issn {
+.taams-issn {
     text-align: left;
     font-size: 24px;
     font-weight: 600;
     margin-bottom: 20px;
 }
 
-.TAAMS-section-title {
+.taams-section-title {
     font-weight: bold;
     margin: 25px 0 10px 0;
     font-size: 1.1em;
@@ -1462,65 +1462,65 @@ article-card-journal,
     padding-bottom: 5px;
 }
 
-.TAAMS-subsection-title {
+.taams-subsection-title {
     font-weight: 600;
     margin: 20px 0 8px 0;
     font-size: 16px;
 }
 
-.TAAMS-list {
+.taams-list {
     margin-top: 5px;
     padding-left: 25px;
 }
 
-.TAAMS-list-item {
+.taams-list-item {
     margin-bottom: 8px;
     font-size: 16px;
 }
-.TAAMS-paragraph {
+.taams-paragraph {
     font-size: 16px;
 }
-.TAAMS-strong {
+.taams-strong {
     font-size: 16px;
 }
 
-.TAAMS-indent {
+.taams-indent {
     margin-left: 25px;
 }
 
-.TAAMS-fee-table {
+.taams-fee-table {
     width: 100%;
     border-collapse: collapse;
     margin: 15px 0;
     font-size: 0.95em;
 }
 
-.TAAMS-fee-table th,
-.TAAMS-fee-table td {
+.taams-fee-table th,
+.taams-fee-table td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
 }
 
-.TAAMS-fee-table th {
+.taams-fee-table th {
     background-color: #f2f2f2;
 }
 
-.TAAMS-editorial-board {
+.taams-editorial-board {
     margin-top: 25px;
 }
 
-.TAAMS-board-member {
+.taams-board-member {
     margin-bottom: 10px;
     line-height: 1.4;
 }
 
-.TAAMS-paragraph {
+.taams-paragraph {
     margin-bottom: 14px;
     text-align: justify;
 }
 
-.TAAMS-note {
+.taams-note {
     font-style: italic;
     color: #555;
 }
