@@ -12,7 +12,8 @@ body {
     color: #333;
 }
 .hero {
-    background-image: url("/static/assets/top-img.png");
+/*     background-image: url("/static/assets/top-img.png"); */
+    background-color: #493435;
     color: white;
     padding: 20px;
     text-align: center;
