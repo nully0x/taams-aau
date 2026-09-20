@@ -4,10 +4,10 @@ A web application for managing and publishing academic journals.
 
 ## Prerequisites
 
-- Rust (latest stable version)
+- Rust 1.96.0 (provided by the flake)
 - Cargo
 - Git
-- Devbox(for linux only)
+- Nix with flakes enabled
 
 ## Setup
 
@@ -16,13 +16,13 @@ A web application for managing and publishing academic journals.
 git clone https://github.com/nully0x/taams-aau.git
 cd taams-aau
 ```
-> If you don't want to install rust, cargo or any other dev-dependencies, you can install devbox and it will install them in an isolated environment.
+> If you don't want to install rust, cargo or any other dev-dependencies, you can use Nix with flakes and it will install them in an isolated environment.
 > This is suitable for Linux and MacOs
 
-- Install devbox via `curl -fsSL https://get.jetify.com/devbox | bash`
-- Start devbox in the project's root with `devbox shell`
+- Enter the development shell with `nix develop`
+- The shell provides Rust 1.96.0 (same as the Docker builder), bacon, sqlite and pkg-config
 
-> then you can skip to [Development](#Development) as the neccessary dev-dependencies has been provided in devbox.
+> then you can skip to [Development](#Development) as the neccessary dev-dependencies has been provided in the flake.
 
 2. Install development dependencies:
 ```bash
