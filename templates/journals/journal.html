@@ -12,6 +12,7 @@
             <li data-category="latest">Latest Articles</li>
             <li data-category="current">Current Edition</li>
             <li data-category="past">Past Issue</li>
+            <li data-category="special">Special Edition</li>
         </ul>
 
         <h3>Archives</h3>
@@ -22,8 +23,8 @@
                 <ul>
                     {% for (issue, journals) in issues %}
                     <li data-volume="{{ volume }}" data-issue="{{ issue }}">
-                        Issue {{ issue }} ({{ self.get_journal_count(journals)
-                        }} articles)
+                        {{ self.issue_label(issue) }} ({{
+                        self.get_journal_count(journals) }} articles)
                     </li>
                     {% endfor %}
                 </ul>
@@ -198,6 +199,11 @@
         await fetchJournals(true);
     });
 
+    function filterJournals() {
+        currentPage = 1;
+        fetchJournals();
+    }
+
     async function fetchJournals(append = false) {
         showLoading(true);
 
@@ -235,17 +241,29 @@
     function updateIssueSelect() {
         issueSelect.innerHTML = '<option value="">All Issues</option>';
         if (currentVolume) {
-            const issues = Object.keys(
-                journals
-                    .filter((j) => j.volume_number.toString() === currentVolume)
-                    .reduce((acc, j) => {
-                        acc[j.issue_number] = true;
-                        return acc;
-                    }, {}),
+            const volumeJournals = journals.filter(
+                (j) => j.volume_number.toString() === currentVolume,
             );
+            const issues = new Set();
+            let hasSpecial = false;
 
-            issues
-                .sort((a, b) => Number(a) - Number(b))
+            volumeJournals.forEach((j) => {
+                if (j.is_special_edition) {
+                    hasSpecial = true;
+                } else if (j.issue_number != null) {
+                    issues.add(j.issue_number);
+                }
+            });
+
+            if (hasSpecial) {
+                const option = document.createElement("option");
+                option.value = "0";
+                option.textContent = "Special Edition";
+                issueSelect.appendChild(option);
+            }
+
+            [...issues]
+                .sort((a, b) => a - b)
                 .forEach((issue) => {
                     const option = document.createElement("option");
                     option.value = issue;
@@ -263,7 +281,10 @@
 
         const meta = document.createElement("p");
         meta.className = "journal-meta";
-        meta.textContent = `Volume: ${journal.volume_number} Issue: ${journal.issue_number} | Page: ${journal.pages}`;
+        const issueText = journal.is_special_edition
+            ? "Special Edition"
+            : `Issue: ${journal.issue_number}`;
+        meta.textContent = `Volume: ${journal.volume_number} ${issueText} | Page: ${journal.pages}`;
 
         const title = document.createElement("h3");
         title.className = "journal-title";
@@ -300,16 +321,24 @@
 
     function updateFilterTitle() {
         let title = "Showing ";
-        if (currentCategory !== "all") {
+        if (currentCategory === "special") {
+            title = "Showing Special Edition articles";
+        } else if (currentCategory !== "all") {
             title += `${currentCategory} `;
         }
-        if (currentVolume) {
+        if (currentVolume && currentCategory !== "special") {
             title += `Volume ${currentVolume} `;
             if (currentIssue) {
-                title += `Issue ${currentIssue} `;
+                if (currentIssue === "0") {
+                    title += "Special Edition ";
+                } else {
+                    title += `Issue ${currentIssue} `;
+                }
             }
         }
-        title += "articles";
+        if (currentCategory !== "special") {
+            title += "articles";
+        }
         filterTitle.textContent = title;
     }
 
@@ -356,15 +385,33 @@
 
     .filter-controls {
         display: flex;
+        flex-wrap: wrap;
         gap: 10px;
         margin: 15px 0;
+        align-items: center;
+    }
+
+    .filter-title {
+        word-break: break-word;
+    }
+
+    /* Reset the global sidebar .filter-input styles: no wrapper box */
+    .filter-input {
+        border: none;
+        background: transparent;
+        padding: 0;
+        width: auto;
+        display: flex;
+        align-items: center;
     }
 
     .filter-input select {
-        padding: 8px;
+        padding: 8px 12px;
         border: 1px solid #ddd;
         border-radius: 4px;
-        width: 150px;
+        min-width: 120px;
+        font-size: 14px;
+        height: 38px;
     }
 
     .reset-btn {
@@ -373,6 +420,8 @@
         border: 1px solid #ddd;
         border-radius: 4px;
         cursor: pointer;
+        font-size: 14px;
+        height: 38px;
     }
 
     .journal-card {

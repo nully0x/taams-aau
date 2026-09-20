@@ -25,7 +25,8 @@ pub fn init_db() -> Result<Connection, rusqlite::Error> {
             abstract_text TEXT NOT NULL,
             keywords TEXT NOT NULL,
             volume_number INTEGER NOT NULL,
-            issue_number INTEGER NOT NULL,
+            issue_number INTEGER NOT NULL DEFAULT 0,
+            is_special_edition BOOLEAN NOT NULL DEFAULT 0,
             pages TEXT NOT NULL,
             publication_date DATETIME NOT NULL,
             pdf_url TEXT NOT NULL,
@@ -33,6 +34,12 @@ pub fn init_db() -> Result<Connection, rusqlite::Error> {
         )",
         [],
     )?;
+
+    // Migration: add is_special_edition column if it doesn't exist
+    let _ = conn.execute(
+        "ALTER TABLE journals ADD COLUMN is_special_edition BOOLEAN NOT NULL DEFAULT 0",
+        [],
+    );
 
     conn.execute(
         "CREATE TABLE IF NOT EXISTS admins (

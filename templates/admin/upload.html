@@ -85,6 +85,27 @@ endblock %} {% block content %}
             />
         </div>
 
+        <div class="form-group" style="margin-bottom: 15px">
+            <label
+                style="
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    cursor: pointer;
+                    font-weight: 500;
+                    color: #333;
+                "
+            >
+                <input
+                    type="checkbox"
+                    id="is_special_edition"
+                    name="is_special_edition"
+                    style="width: 18px; height: 18px; cursor: pointer;"
+                />
+                Special Edition
+            </label>
+        </div>
+
         {# Use form-row or similar for layout #}
         <div style="display: flex; gap: 1rem; margin-bottom: 15px">
             <div class="form-group" style="flex: 1">
@@ -119,7 +140,7 @@ endblock %} {% block content %}
                     onBlur="this.style.borderColor='#ced4da'; this.style.boxShadow='none';"
                 />
             </div>
-            <div class="form-group" style="flex: 1">
+            <div class="form-group" id="issueGroup" style="flex: 1">
                 <label
                     for="issue_number"
                     style="
@@ -341,6 +362,21 @@ endblock %} {% block content %}
 </div>
 {% endblock %} {% block scripts %}
 <script>
+    const specialEditionCheckbox = document.getElementById("is_special_edition");
+    const issueGroup = document.getElementById("issueGroup");
+    const issueInput = document.getElementById("issue_number");
+
+    specialEditionCheckbox?.addEventListener("change", function () {
+        if (this.checked) {
+            issueGroup.style.display = "none";
+            issueInput.required = false;
+            issueInput.value = "";
+        } else {
+            issueGroup.style.display = "block";
+            issueInput.required = true;
+        }
+    });
+
     document
         .getElementById("uploadForm")
         ?.addEventListener("submit", async (e) => {
@@ -354,15 +390,28 @@ endblock %} {% block content %}
                 'button[type="submit"]',
             );
 
-            // Add form validation
+            const isSpecialEdition = specialEditionCheckbox?.checked;
             const volumeNumber = parseInt(formData.get("volume_number"));
-            const issueNumber = parseInt(formData.get("issue_number"));
 
-            if (volumeNumber < 1 || issueNumber < 1) {
+            if (isSpecialEdition) {
+                formData.delete("issue_number");
+            }
+
+            if (volumeNumber < 1) {
                 statusDiv.style.display = "block";
                 errorMsg.textContent =
-                    "Volume and Issue numbers must be positive integers.";
+                    "Volume number must be a positive integer.";
                 return;
+            }
+
+            if (!isSpecialEdition) {
+                const issueNumber = parseInt(formData.get("issue_number"));
+                if (issueNumber < 1) {
+                    statusDiv.style.display = "block";
+                    errorMsg.textContent =
+                        "Issue number must be a positive integer.";
+                    return;
+                }
             }
 
             submitButton.disabled = true;
@@ -385,6 +434,8 @@ endblock %} {% block content %}
                         result.message || "Upload successful!";
                     errorMsg.textContent = "";
                     e.target.reset();
+                    issueGroup.style.display = "block";
+                    issueInput.required = true;
                     setTimeout(() => {
                         statusDiv.style.display = "none";
                     }, 5000);

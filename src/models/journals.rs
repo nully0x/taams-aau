@@ -9,7 +9,8 @@ pub struct Journal {
     pub abstract_text: String,
     pub keywords: String,
     pub volume_number: i32,
-    pub issue_number: i32,
+    pub issue_number: Option<i32>,
+    pub is_special_edition: bool,
     pub pages: String,
     pub publication_date: DateTime<Utc>,
     pub pdf_url: String,
@@ -23,7 +24,8 @@ impl Journal {
         abstract_text: String,
         keywords: String,
         volume_number: i32,
-        issue_number: i32,
+        issue_number: Option<i32>,
+        is_special_edition: bool,
         pages: String,
         publication_date: DateTime<Utc>,
         pdf_url: String,
@@ -36,6 +38,7 @@ impl Journal {
             keywords,
             volume_number,
             issue_number,
+            is_special_edition,
             pages,
             publication_date,
             pdf_url,
@@ -52,6 +55,14 @@ impl Journal {
 
     // Helper to display volume/issue nicely
     pub fn volume_issue_display(&self) -> String {
-        format!("Vol. {} No. {}", self.volume_number, self.issue_number)
+        if self.is_special_edition {
+            format!("Vol. {} Special Edition", self.volume_number)
+        } else {
+            format!(
+                "Vol. {} No. {}",
+                self.volume_number,
+                self.issue_number.unwrap_or(0)
+            )
+        }
     }
 }

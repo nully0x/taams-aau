@@ -16,9 +16,10 @@ impl JournalRepository {
     }
 
     fn map_row_to_journal(row: &rusqlite::Row) -> RusqliteResult<Journal> {
-        let publication_date_timestamp: i64 = row.get(8)?; // publication_date is at index 8
-        let created_at_str: Option<String> = row.get(10)?; // created_at is at index 10
-        let pdf_filename: String = row.get(9)?; // pdf_url is at index 9
+        let publication_date_timestamp: i64 = row.get(9)?; // publication_date is at index 9
+        let created_at_str: Option<String> = row.get(11)?; // created_at is at index 11
+        let pdf_filename: String = row.get(10)?; // pdf_url is at index 10
+        let is_special: bool = row.get(7)?; // is_special_edition is at index 7
 
         let naive_dt = NaiveDateTime::from_timestamp_opt(publication_date_timestamp, 0).unwrap();
         let publication_date = DateTime::<Utc>::from_utc(naive_dt, Utc);
@@ -37,8 +38,9 @@ impl JournalRepository {
             abstract_text: row.get(3)?,
             keywords: row.get(4)?,
             volume_number: row.get(5)?,
-            issue_number: row.get(6)?,
-            pages: row.get(7)?, // pages is at index 7 and should be read as TEXT
+            issue_number: if is_special { None } else { Some(row.get(6)?) },
+            is_special_edition: is_special,
+            pages: row.get(8)?, // pages is at index 8 and should be read as TEXT
             publication_date,
             pdf_url: pdf_filename,
             created_at,
@@ -47,20 +49,21 @@ impl JournalRepository {
 
     // Base SELECT statement for consistency
     const SELECT_FIELDS: &'static str =
-           "id, title, authors, abstract_text, keywords, volume_number, issue_number, pages, publication_date, pdf_url, created_at";
+           "id, title, authors, abstract_text, keywords, volume_number, issue_number, is_special_edition, pages, publication_date, pdf_url, created_at";
 
     // Updated INSERT statement
     pub fn save_journal(&self, journal: &Journal) -> Result<i64, SubmissionError> {
         let result = self.conn.execute(
-                      "INSERT INTO journals (title, authors, abstract_text, keywords, volume_number, issue_number, pages, publication_date, pdf_url)
-                       VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9)",
+                      "INSERT INTO journals (title, authors, abstract_text, keywords, volume_number, issue_number, is_special_edition, pages, publication_date, pdf_url)
+                       VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10)",
                       params![
                           journal.title,
                           journal.authors,
                           journal.abstract_text,
                           journal.keywords,
-                          journal.volume_number, // Use new field
-                          journal.issue_number,  // Use new field
+                          journal.volume_number,
+                          journal.issue_number.unwrap_or(0),
+                          journal.is_special_edition,
                           journal.pages,
                           journal.publication_date.timestamp(),
                           journal.pdf_url,
@@ -93,16 +96,17 @@ impl JournalRepository {
         let result = self.conn.execute(
             "UPDATE journals SET
                       title = ?1, authors = ?2, abstract_text = ?3, keywords = ?4,
-                      volume_number = ?5, issue_number = ?6, pages = ?7,
-                      publication_date = ?8, pdf_url = ?9
-                  WHERE id = ?10",
+                      volume_number = ?5, issue_number = ?6, is_special_edition = ?7, pages = ?8,
+                      publication_date = ?9, pdf_url = ?10
+                  WHERE id = ?11",
             params![
                 journal.title,
                 journal.authors,
                 journal.abstract_text,
                 journal.keywords,
                 journal.volume_number,
-                journal.issue_number,
+                journal.issue_number.unwrap_or(0),
+                journal.is_special_edition,
                 journal.pages,
                 journal.publication_date.timestamp(),
                 journal.pdf_url,
@@ -294,6 +298,29 @@ impl JournalRepository {
                 Ok(Vec::new())
             }
         }
+    }
+
+    pub fn get_special_editions(
+        &self,
+        limit: i32,
+        offset: i32,
+    ) -> Result<Vec<Journal>, SubmissionError> {
+        let query = format!(
+            "SELECT {} FROM journals WHERE is_special_edition = 1 ORDER BY volume_number DESC, publication_date DESC LIMIT ?1 OFFSET ?2",
+            Self::SELECT_FIELDS
+        );
+        let mut stmt = self
+            .conn
+            .prepare(&query)
+            .map_err(|e| SubmissionError::DatabaseError(e.to_string()))?;
+
+        let journal_iter = stmt
+            .query_map(params![limit, offset], Self::map_row_to_journal)
+            .map_err(|e| SubmissionError::DatabaseError(e.to_string()))?;
+
+        journal_iter
+            .collect::<Result<Vec<Journal>, _>>()
+            .map_err(|e| SubmissionError::DatabaseError(e.to_string()))
     }
 
     pub fn delete_journal_by_id(&self, id: i32) -> Result<(), SubmissionError> {

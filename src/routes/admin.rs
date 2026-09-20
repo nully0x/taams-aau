@@ -88,7 +88,8 @@ pub struct EditJournalForm {
     pub abstract_text: String,
     pub keywords: String,
     pub volume_number: i32,
-    pub issue_number: i32,
+    pub issue_number: Option<i32>,
+    pub is_special_edition: Option<String>,
     pub pages: String,
     pub publication_date: String,
     pub pdf_url: String,
@@ -170,6 +171,7 @@ pub async fn process_upload(
                 let mut keywords: Option<String> = None;
                 let mut volume_number: Option<i32> = None;
                 let mut issue_number: Option<i32> = None;
+                let mut is_special_edition: bool = false;
                 let mut pages: Option<String> = None;
                 let mut publication_date: Option<String> = None;
                 let mut pdf_filename: Option<String> = None;
@@ -211,6 +213,10 @@ pub async fn process_upload(
                                     )
                                 })?)
                         }
+                        "is_special_edition" => {
+                            let val = utils::read_field(field).await?;
+                            is_special_edition = val == "on" || val == "true" || val == "1";
+                        }
                         "pages" => pages = Some(utils::read_field(field).await?),
                         "publication_date" => {
                             publication_date = Some(utils::read_field(field).await?)
@@ -235,9 +241,13 @@ pub async fn process_upload(
                 let volume_number = volume_number.ok_or(SubmissionError::ValidationError(
                     "Volume number is required".to_string(),
                 ))?;
-                let issue_number = issue_number.ok_or(SubmissionError::ValidationError(
-                    "Issue number is required".to_string(),
-                ))?;
+                let issue_number = if is_special_edition {
+                    None
+                } else {
+                    Some(issue_number.ok_or(SubmissionError::ValidationError(
+                        "Issue number is required for non-special editions".to_string(),
+                    ))?)
+                };
                 let pages = pages.ok_or(SubmissionError::ValidationError(
                     "Pages are required".to_string(),
                 ))?;
@@ -266,6 +276,7 @@ pub async fn process_upload(
                     keywords,
                     volume_number,
                     issue_number,
+                    is_special_edition,
                     pages,
                     publication_datetime,
                     pdf_url,
@@ -450,6 +461,7 @@ pub async fn update_journal_handler(
             }
 
             // Create updated journal
+            let is_special = matches!(form.is_special_edition.as_deref(), Some("on") | Some("true"));
             let updated_journal = Journal {
                 id: Some(journal_id),
                 title: form.title.clone(),
@@ -457,7 +469,8 @@ pub async fn update_journal_handler(
                 abstract_text: form.abstract_text.clone(),
                 keywords: form.keywords.clone(),
                 volume_number: form.volume_number,
-                issue_number: form.issue_number,
+                issue_number: if is_special { None } else { form.issue_number },
+                is_special_edition: is_special,
                 pages: form.pages.clone(),
                 publication_date: publication_datetime,
                 pdf_url: form.pdf_url.clone(),

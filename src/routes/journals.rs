@@ -6,6 +6,7 @@ use serde::Deserialize;
 use serde_json::json;
 use std::collections::BTreeMap;
 
+use crate::config::get_journal_config;
 use crate::db::journal_repository::JournalRepository;
 use crate::db::schema::init_db;
 use crate::errors::SubmissionError;
@@ -17,6 +18,7 @@ struct JournalDetailTemplate {
     journal: Journal,
     id_string: String,
     is_admin: bool,
+    journal_name: String,
 }
 
 #[derive(Template, Debug)]
@@ -29,6 +31,14 @@ struct JournalTemplate {
 impl JournalTemplate {
     fn get_journal_count(&self, journals: &[Journal]) -> usize {
         journals.len()
+    }
+
+    fn issue_label(&self, issue: &i32) -> String {
+        if *issue == 0 {
+            "Special Edition".to_string()
+        } else {
+            format!("Issue {}", issue)
+        }
     }
 }
 
@@ -67,11 +77,14 @@ pub async fn journal_detail_handler(
         .map_err(|e| SubmissionError::DatabaseError(e.to_string()))?
         .is_some();
 
+    let config = get_journal_config();
+
     Ok(HttpResponse::Ok().body(
         JournalDetailTemplate {
             journal,
             id_string: journal_id.to_string(),
             is_admin,
+            journal_name: config.name,
         }
         .render()
         .map_err(|e| SubmissionError::InternalError(format!("Template error: {}", e)))?,
@@ -87,10 +100,15 @@ pub async fn journal_handler() -> Result<HttpResponse, SubmissionError> {
 
     let mut archives: BTreeMap<i32, BTreeMap<i32, Vec<Journal>>> = BTreeMap::new();
     for journal in all_journals.iter() {
+        let issue_key = if journal.is_special_edition {
+            0 // Group special editions under issue 0
+        } else {
+            journal.issue_number.unwrap_or(0)
+        };
         archives
             .entry(journal.volume_number)
             .or_insert_with(BTreeMap::new)
-            .entry(journal.issue_number)
+            .entry(issue_key)
             .or_insert_with(Vec::new)
             .push(journal.clone());
     }
@@ -127,6 +145,7 @@ pub async fn journal_api_handler(
         "latest" => repository.get_latest_journals(limit)?,
         "current" => repository.get_current_edition(limit)?,
         "past" => repository.get_past_issues(limit, offset)?,
+        "special" => repository.get_special_editions(limit, offset)?,
         _ => repository.get_all_journals(limit, offset)?,
     };
 
@@ -134,7 +153,11 @@ pub async fn journal_api_handler(
         journals.retain(|j| j.volume_number == volume);
 
         if let Some(issue) = query.issue {
-            journals.retain(|j| j.issue_number == issue);
+            if issue == 0 {
+                journals.retain(|j| j.is_special_edition);
+            } else {
+                journals.retain(|j| j.issue_number == Some(issue));
+            }
         }
     }
 
